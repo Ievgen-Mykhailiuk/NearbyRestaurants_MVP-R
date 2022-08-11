@@ -9,14 +9,16 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 
-class MapViewController: UIViewController  {
+final class MapViewController: UIViewController  {
     
-    var networkManager = NetworkManager()
-    let locationManager = CLLocationManager()
-    var places: [PlacesModel] = []
-    var mapView = GMSMapView()
+    //MARK: - Properties
+    private let locationManager = CLLocationManager()
     
+    private var networkManager = NetworkManager()
+    private var places: [PlacesModel] = []
+    private var mapView = GMSMapView()
     
+    //MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         networkManager.delegate = self
@@ -25,26 +27,27 @@ class MapViewController: UIViewController  {
         locationManager.startUpdatingLocation()
     }
     
-    func addMarkers() {
-        DispatchQueue.main.async {
-            let geocoder = GMSGeocoder()
-            for place in self.places {
-                geocoder.reverseGeocodeCoordinate(CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)) { response , error in
-                 
-                    if let location = response?.firstResult() {
-                        let marker = GMSMarker()
-                        let lines = location.lines! as [String]
-                        marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
-                        marker.title = place.name
-                        marker.snippet = lines.joined(separator: "\n")
-                        marker.map = self.mapView
-                    }
+    //MARK: - Methods
+    private func addMarkers() {
+        let geocoder = GMSGeocoder()
+        places.forEach { place in
+            geocoder.reverseGeocodeCoordinate(CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)) { response , error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                if let location = response?.firstResult() {
+                    let marker = GMSMarker()
+                    let lines = location.lines! as [String]
+                    marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
+                    marker.title = place.name
+                    marker.snippet = lines.joined(separator: "\n")
+                    marker.map = self.mapView
                 }
             }
         }
     }
     
-    func setUpMap(coordinates: CLLocationCoordinate2D)  {
+    private func setUpMap(coordinates: CLLocationCoordinate2D)  {
         let camera = GMSCameraPosition.camera(withLatitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 14)
         mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
         mapView.settings.myLocationButton = true
@@ -54,6 +57,7 @@ class MapViewController: UIViewController  {
     }
 }
 
+//MARK: - Extensions
 extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
@@ -71,7 +75,6 @@ extension MapViewController: NetworkManagerDelegate {
             self.addMarkers()
         }
     }
-    
     func didFailwithError(error: Error) {
         print(error.localizedDescription)
     }

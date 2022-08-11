@@ -7,30 +7,31 @@
 
 import Foundation
 
+//MARK: - Protocol
 protocol NetworkManagerDelegate: AnyObject {
     func getPlaces(places: [PlacesModel])
     func didFailwithError(error: Error)
 }
 
 struct NetworkManager {
-    
+    //MARK: - Properties
     weak var delegate: NetworkManagerDelegate?
     
+    //MARK: - Methods
     func requestPlaces(lat: Double, lon: Double) {
         let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat)%2C\(lon)&radius=5000&type=restaurant&key=AIzaSyBYu4A-M-dIFgIaMcm61RosaP1SB4Ggxww"
-        let url = URL(string: urlString)
-        let session = URLSession(configuration: .default)
-        
-        let task = session.dataTask(with: url!) { (data, response, error) in
-            if let error = error {
-                self.delegate?.didFailwithError(error: error)
-                return
+        if let url = URL(string: urlString) {
+            let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    self.delegate?.didFailwithError(error: error)
+                    return
+                }
+                if let safeData = data {
+                    self.parseData(data: safeData)
+                }
             }
-            if let safeData = data {
-                self.parseData(data: safeData)
-            }
+            task.resume()
         }
-        task.resume()
     }
     
     func parseData(data: Data) {
@@ -41,7 +42,7 @@ struct NetworkManager {
                 return
             }
             if let results = data["results"] as? [Any] {
-                for resultDict in results {
+                results.forEach { resultDict in
                     if let result = resultDict as? [String : Any] {
                         if let name = result["name"] as? String,
                            let geometryDict = result["geometry"] as? [String : Any] {

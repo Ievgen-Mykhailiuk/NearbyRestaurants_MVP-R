@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlacesModel {
+struct PlacesModel: Codable {
     let name: String
     let longitude: Double
     let latitude: Double

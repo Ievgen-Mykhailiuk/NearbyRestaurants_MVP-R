@@ -9,73 +9,43 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 
-final class MapViewController: UIViewController  {
+final class MapViewController: UIViewController {
     
     //MARK: - Properties
-    private let locationManager = CLLocationManager()
-    
-    private var networkManager = NetworkManager()
-    private var places: [PlacesModel] = []
-    private var mapView = GMSMapView()
-    
+    private var locationManager = LocationService()
+    private var networkManager = NetworkService()
+    private let mapManager = GoogleMapService()
+
     //MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialSetup()
+    }
+    
+  //MARK: - Methods
+    private func initialSetup() {
         networkManager.delegate = self
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-    
-    //MARK: - Methods
-    private func addMarkers() {
-        let geocoder = GMSGeocoder()
-        places.forEach { place in
-            geocoder.reverseGeocodeCoordinate(CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)) { response , error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                if let location = response?.firstResult() {
-                    let marker = GMSMarker()
-                    let lines = location.lines! as [String]
-                    marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
-                    marker.title = place.name
-                    marker.snippet = lines.joined(separator: "\n")
-                    marker.map = self.mapView
-                }
-            }
-        }
-    }
-    
-    private func setUpMap(coordinates: CLLocationCoordinate2D)  {
-        let camera = GMSCameraPosition.camera(withLatitude: coordinates.latitude, longitude: coordinates.longitude, zoom: 14)
-        mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
-        mapView.settings.myLocationButton = true
-        mapView.isMyLocationEnabled = true
-        mapView.settings.zoomGestures = true
-        self.view.addSubview(mapView)
     }
 }
 
 //MARK: - Extensions
-extension MapViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        let coordinates = location.coordinate
-        setUpMap(coordinates: coordinates)
-        networkManager.requestPlaces(lat: coordinates.latitude, lon: coordinates.longitude)
-        locationManager.stopUpdatingLocation()
+extension MapViewController: NetworkServiceDelegate {
+    func getPlaces(places: [PlacesModel]) {
+        DispatchQueue.main.async {
+            self.mapManager.addMarkers(places: places)
+        }
+    }
+    func didFailWithError(error: Error) {
+        print(error.localizedDescription)
     }
 }
 
-extension MapViewController: NetworkManagerDelegate {
-    func getPlaces(places: [PlacesModel]) {
+extension MapViewController: LocationServiceProtocol {
+    func getCurrentLocation(location: CLLocation) {
         DispatchQueue.main.async {
-            self.places = places
-            self.addMarkers()
+            self.networkManager.requestPlaces(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+            self.mapManager.createMap(on: self.view, location: location)
         }
-    }
-    func didFailwithError(error: Error) {
-        print(error.localizedDescription)
     }
 }

@@ -8,31 +8,31 @@
 import Foundation
 
 //MARK: - Protocol
-protocol NetworkManagerDelegate: AnyObject {
+protocol NetworkServiceDelegate: AnyObject {
     func getPlaces(places: [PlacesModel])
-    func didFailwithError(error: Error)
+    func didFailWithError(error: Error)
 }
 
-struct NetworkManager {
+struct NetworkService {
     //MARK: - Properties
-    weak var delegate: NetworkManagerDelegate?
+    weak var delegate: NetworkServiceDelegate?
     
     //MARK: - Methods
     func requestPlaces(lat: Double, lon: Double) {
         let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat)%2C\(lon)&radius=5000&type=restaurant&key=AIzaSyBYu4A-M-dIFgIaMcm61RosaP1SB4Ggxww"
-        if let url = URL(string: urlString) {
-            let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    self.delegate?.didFailwithError(error: error)
-                    return
-                }
-                if let safeData = data {
-                    self.parseData(data: safeData)
-                }
+        guard let url = URL(string: urlString) else { return }
+        let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                self.delegate?.didFailWithError(error: error)
+                return
             }
-            task.resume()
+            if let safeData = data {
+                self.parseData(data: safeData)
+            }
         }
+        task.resume()
     }
+    
     
     func parseData(data: Data) {
         DispatchQueue.main.async {
@@ -60,3 +60,4 @@ struct NetworkManager {
         }
     }
 }
+

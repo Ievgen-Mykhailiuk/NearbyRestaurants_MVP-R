@@ -11,7 +11,7 @@ import GoogleMaps
 //MARK: - Protocols
 protocol GoogleMapServiceProtocol: AnyObject {
     func configure()
-    func provideApiKey() -> String
+    func useApiKey() -> String
 }
 
 class GoogleMapService: GoogleMapServiceProtocol {
@@ -25,7 +25,7 @@ class GoogleMapService: GoogleMapServiceProtocol {
         GMSServices.provideAPIKey(apiKey)
     }
     
-    func provideApiKey() -> String {
+    func useApiKey() -> String {
         return apiKey
     }
 }

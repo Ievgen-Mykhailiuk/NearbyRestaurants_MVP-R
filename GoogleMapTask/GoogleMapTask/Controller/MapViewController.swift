@@ -19,7 +19,7 @@ final class MapViewController: UIViewController {
     private var currentLocation: CLLocation? {
         didSet {
             if let location = currentLocation {
-                self.networkManager.requestPlaces(url: self.networkManager.configureURL(lat: location.coordinate.latitude, lon: location.coordinate.longitude))
+                requestPlaces(location: location)
             }
         }
     }
@@ -33,54 +33,65 @@ final class MapViewController: UIViewController {
     //MARK: - Methods
     private func initialSetup() {
         setupMap()
-        networkManager.delegate = self
         locationManager.delegate = self
     }
     
-    func setupMap() {
+    private func setupMap() {
         mapView.frame = view.bounds
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
         view.addSubview(mapView)
     }
     
-    func updateMapCamera(location: CLLocation) {
+    private func setMapCamera(location: CLLocation) {
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 14.0)
         mapView.animate(to: camera)
     }
     
-    func addMarker(place: PlacesModel) {
+    private func addMarker(place: PlacesModel) {
         let marker = GMSMarker()
         let location = CLLocation(latitude: place.latitude, longitude: place.longitude)
         marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         marker.title = place.name
-        locationManager.getAdress(location: location) { address in
+        locationManager.getAddress(location: location) { address in
             marker.snippet = address
         }
         marker.map = self.mapView
     }
-}
-
-//MARK: - Extensions
-extension MapViewController: NetworkServiceDelegate {
-    func getPlaces(places: [PlacesModel]) {
-        DispatchQueue.main.async {
-            places.forEach  { place in
-                self.addMarker(place: place)
+    
+    private func requestPlaces(location: CLLocation) {
+        networkManager.request(fromURL: .getPlaces(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)) { (result: Result<PlacesData, Error>) in
+            switch result {
+            case .success(let places):
+                places.results.forEach { place in
+                    let placeModel = PlacesModel(name: place.name,
+                                                 longitude: place.geometry.location.longitude,
+                                                 latitude: place.geometry.location.latitude,
+                                                 icon: place.icon,
+                                                 rank: place.rating ?? 0.0)
+                    self.addMarker(place: placeModel)
+                }
+            case .failure(let error):
+                self.showAlert(title: "Error", buttonTitle: "OK", error: error)
             }
         }
     }
-    
-    func didFailWithError(error: Error) {
-        print(error.localizedDescription)
-    }
 }
 
+//MARK: - Extensions
 extension MapViewController: LocationServiceProtocol {
     func getCurrentLocation(location: CLLocation) {
         DispatchQueue.main.async {
             self.currentLocation = location
-            self.updateMapCamera(location: location)
+            self.setMapCamera(location: location)
         }
+    }
+}
+
+extension MapViewController {
+    func showAlert(title: String, buttonTitle: String, error: Error) {
+        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

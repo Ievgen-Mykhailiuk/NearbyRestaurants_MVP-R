@@ -27,19 +27,28 @@ class LocationService: NSObject {
         manager.startUpdatingLocation()
     }
     
-    func getAdress(location: CLLocation, completion: @escaping (String) -> Void) {
+    //MARK: - Methods
+    func getAddress(location: CLLocation, completion: @escaping (String) -> Void) {
         let geocoder = CLGeocoder()
+        var address = [String]()
         geocoder.reverseGeocodeLocation(location) { response , error in
             if let error = error {
                 print(error.localizedDescription)
             }
-            if let position = response?.first {
-                if let country = position.country,
-                   let town = position.locality,
-                   let street = position.thoroughfare {
-                    let adress = country + town + street
-                    completion(adress)
+            if let obj = response?.first {
+                if let building = obj.subThoroughfare {
+                    address.append(building)
                 }
+                if let street = obj.thoroughfare {
+                    address.append(street)
+                }
+                if let city = obj.locality {
+                    address.append(city)
+                }
+                if let country = obj.country {
+                    address.append(country)
+                }
+                completion(address.joined(separator: ", "))
             }
         }
     }
@@ -52,34 +61,3 @@ extension LocationService: CLLocationManagerDelegate {
         self.delegate?.getCurrentLocation(location: location)
     }
 }
-
-
-
-//func getAddress(latitude: Double, longitude: Double, completion: @escaping (String) -> Void) {
-//        var address = [String]()
-//        let geoCoder = CLGeocoder()
-//        let location = CLLocation(latitude: latitude, longitude: longitude)
-//        
-//        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-//            guard error == nil else {
-//                completion("")
-//                return
-//            }
-//            
-//            let placeMark = placemarks?[0]
-//            
-//            if let street = placeMark?.thoroughfare {
-//                address.append(street)
-//            }
-//            
-//            if let city = placeMark?.locality {
-//                address.append(city)
-//            }
-//            
-//            if let country = placeMark?.country {
-//                address.append(country)
-//            }
-//            
-//            completion(address.joined(separator: ", "))
-//        })
-//    }

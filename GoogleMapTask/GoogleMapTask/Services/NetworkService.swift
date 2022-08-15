@@ -7,63 +7,60 @@
 
 import Foundation
 
-//MARK: - Protocol
-protocol NetworkServiceDelegate: AnyObject {
-    func getPlaces(places: [PlacesModel])
-    func didFailWithError(error: Error)
+protocol NetworkServiceProtocol {
+    func request<T: Codable>(fromURL url: PlacesAPI, completion: @escaping (Result<T, Error>) -> Void)
 }
 
-struct NetworkService {
-    //MARK: - Properties
-    weak var delegate: NetworkServiceDelegate?
+class NetworkService: NetworkServiceProtocol {
     
-//    MARK: - Methods
-    func configureURL(lat: Double, lon: Double) -> URL? {
-        let gmsManager = GoogleMapService()
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "maps.googleapis.com"
-        components.path = "/maps/api/place/nearbysearch/json"
-        let location = URLQueryItem(name:"location", value: "\(lat) \(lon)")
-        let type = URLQueryItem(name:"type", value: "restaurant")
-        let radius = URLQueryItem(name: "radius", value: "5000")
-        let key = URLQueryItem(name: "key", value: "\(gmsManager.provideApiKey())")
-        components.queryItems = [location, type, radius, key]
-        let url = components.url
-        return url
+    enum Errors: String, Error {
+        case invalidURL = "invalidURL"
+        case invalidResponse = "Invalid response"
+        case invalidStatusCode = "Invalid status code"
+        case noData = "No data occur"
+        case invalidData = "Invalid Data"
     }
-
-    func requestPlaces(url: URL?) {
-        guard let url = url else { return }
-        let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+    
+    func request<T: Codable>(fromURL url: PlacesAPI, completion: @escaping (Result<T, Error>) -> Void) {
+        
+        let completionOnMain: (Result<T, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+        
+        guard let url = url.url else {
+            completionOnMain(.failure(Errors.invalidURL))
+            return }
+        
+        let urlSession = URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                self.delegate?.didFailWithError(error: error)
+                completionOnMain(.failure(error))
                 return
             }
-            if let safeData = data {
-                self.parseData(data: safeData)
+            
+            guard let urlResponse = response as? HTTPURLResponse else {
+                completionOnMain(.failure(Errors.invalidResponse))
+                return
+            }
+            
+            if !(200..<300).contains(urlResponse.statusCode) {
+                completionOnMain(.failure(Errors.invalidStatusCode))
+                return
+            }
+            
+            guard let data = data else {
+                completionOnMain(.failure(Errors.noData))
+                return
+            }
+            
+            do {
+                let places = try JSONDecoder().decode(T.self, from: data)
+                completionOnMain(.success(places))
+            } catch {
+                completionOnMain(.failure(Errors.invalidData))
             }
         }
-        task.resume()
-    }
-    
-    func parseData(data: Data) {
-        let decoder = JSONDecoder()
-        var requestResults: [PlacesModel] = []
-        do {
-            let placesData = try decoder.decode(PlacesData?.self, from: data)
-            guard let  decodedData = placesData else {return}
-            for place in decodedData.results {
-                let model = PlacesModel(name: place.name,
-                                        longitude: place.geometry.location.longitude,
-                                        latitude: place.geometry.location.latitude,
-                                        icon: place.icon,
-                                        rank: place.rating ?? 0.0)
-                requestResults.append(model)
-            }
-            self.delegate?.getPlaces(places: requestResults)
-        } catch {
-            self.delegate?.didFailWithError(error: error)
-        }
+        urlSession.resume()
     }
 }

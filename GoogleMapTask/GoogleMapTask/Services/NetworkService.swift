@@ -18,9 +18,22 @@ struct NetworkService {
     weak var delegate: NetworkServiceDelegate?
     
     //MARK: - Methods
-    func requestPlaces(lat: Double, lon: Double) {
-        let urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(lat)%2C\(lon)&radius=5000&type=restaurant&key=AIzaSyBYu4A-M-dIFgIaMcm61RosaP1SB4Ggxww"
-        guard let url = URL(string: urlString) else { return }
+    func configureURL(lat: Double, lon: Double) -> URL? {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "maps.googleapis.com"
+        components.path = "/maps/api/place/nearbysearch/json"
+        let location = URLQueryItem(name:"location", value: "\(lat) \(lon)")
+        let type = URLQueryItem(name:"type", value: "restaurant")
+        let radius = URLQueryItem(name: "radius", value: "5000")
+        let key = URLQueryItem(name: "key", value: "\(GoogleMapService.apiKey)")
+        components.queryItems = [location, type, radius, key]
+        let url = components.url
+        return url
+    }
+
+    func requestPlaces(url: URL?) {
+        guard let url = url else { return }
         let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
             if let error = error {
                 self.delegate?.didFailWithError(error: error)
@@ -33,31 +46,23 @@ struct NetworkService {
         task.resume()
     }
     
-    
     func parseData(data: Data) {
-        DispatchQueue.main.async {
-            var searchResults: [PlacesModel] = []
-            guard let data = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                print("Fail to parse data");
-                return
+        let decoder = JSONDecoder()
+        var requestResults: [PlacesModel] = []
+        do {
+            let placesData = try decoder.decode(PlacesData?.self, from: data)
+            guard let  decodedData = placesData else {return}
+            for place in decodedData.results {
+                let model = PlacesModel(name: place.name,
+                                        longitude: place.geometry.location.longitude,
+                                        latitude: place.geometry.location.latitude,
+                                        icon: place.icon,
+                                        rank: place.rating ?? 0.0)
+                requestResults.append(model)
             }
-            if let results = data["results"] as? [Any] {
-                results.forEach { resultDict in
-                    if let result = resultDict as? [String : Any] {
-                        if let name = result["name"] as? String,
-                           let geometryDict = result["geometry"] as? [String : Any] {
-                            if let locationDict = geometryDict["location"] as? [String : Any] {
-                                if let lat = locationDict["lat"] as? Double, let lng = locationDict["lng"] as? Double {
-                                    let place = PlacesModel(name: name, longitude: lng, latitude: lat)
-                                    searchResults.append(place)
-                                }
-                            }
-                        }
-                    }
-                }
-                self.delegate?.getPlaces(places: searchResults)
-            }
+            self.delegate?.getPlaces(places: requestResults)
+        } catch {
+            self.delegate?.didFailWithError(error: error)
         }
     }
 }
-

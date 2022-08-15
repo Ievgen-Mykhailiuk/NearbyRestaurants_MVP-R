@@ -15,6 +15,13 @@ final class MapViewController: UIViewController {
     private var locationManager = LocationService()
     private var networkManager = NetworkService()
     private let mapManager = GoogleMapService()
+    private var currentLocation: CLLocation? {
+        didSet {
+            if let location = currentLocation {
+            self.networkManager.requestPlaces(url: self.networkManager.configureURL(lat: location.coordinate.latitude, lon: location.coordinate.longitude))
+            }
+        }
+    }
 
     //MARK: - Override methods
     override func viewDidLoad() {
@@ -24,8 +31,10 @@ final class MapViewController: UIViewController {
     
   //MARK: - Methods
     private func initialSetup() {
+        mapManager.createMap(on: self.view)
         networkManager.delegate = self
         locationManager.delegate = self
+        
     }
 }
 
@@ -44,8 +53,8 @@ extension MapViewController: NetworkServiceDelegate {
 extension MapViewController: LocationServiceProtocol {
     func getCurrentLocation(location: CLLocation) {
         DispatchQueue.main.async {
-            self.networkManager.requestPlaces(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
-            self.mapManager.createMap(on: self.view, location: location)
+            self.currentLocation = location
+            self.mapManager.updateMapCamera(location: location)
         }
     }
 }

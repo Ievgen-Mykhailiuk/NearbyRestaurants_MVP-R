@@ -19,6 +19,7 @@
 		FC5E52CD28A63C6500421075 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = FC5E52CC28A63C6500421075 /* GoogleMaps */; };
 		FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52CE28A63CC800421075 /* GoogleMapService.swift */; };
 		FC5E52D128A6425300421075 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D028A6425300421075 /* LocationService.swift */; };
+		FC5E52D428A6A7C600421075 /* PlacesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D328A6A7C600421075 /* PlacesData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		FC417CBB28A4053300A75430 /* PlacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesModel.swift; sourceTree = "<group>"; };
 		FC5E52CE28A63CC800421075 /* GoogleMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapService.swift; sourceTree = "<group>"; };
 		FC5E52D028A6425300421075 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FC5E52D328A6A7C600421075 /* PlacesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				FC417CBB28A4053300A75430 /* PlacesModel.swift */,
+				FC5E52D328A6A7C600421075 /* PlacesData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */,
 				FC5E52D128A6425300421075 /* LocationService.swift in Sources */,
 				FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */,
+				FC5E52D428A6A7C600421075 /* PlacesData.swift in Sources */,
 				FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */,
 				FC417CBC28A4053300A75430 /* PlacesModel.swift in Sources */,
 			);

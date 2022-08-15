@@ -17,8 +17,9 @@ struct NetworkService {
     //MARK: - Properties
     weak var delegate: NetworkServiceDelegate?
     
-    //MARK: - Methods
+//    MARK: - Methods
     func configureURL(lat: Double, lon: Double) -> URL? {
+        let gmsManager = GoogleMapService()
         var components = URLComponents()
         components.scheme = "https"
         components.host = "maps.googleapis.com"
@@ -26,7 +27,7 @@ struct NetworkService {
         let location = URLQueryItem(name:"location", value: "\(lat) \(lon)")
         let type = URLQueryItem(name:"type", value: "restaurant")
         let radius = URLQueryItem(name: "radius", value: "5000")
-        let key = URLQueryItem(name: "key", value: "\(GoogleMapService.apiKey)")
+        let key = URLQueryItem(name: "key", value: "\(gmsManager.provideApiKey())")
         components.queryItems = [location, type, radius, key]
         let url = components.url
         return url

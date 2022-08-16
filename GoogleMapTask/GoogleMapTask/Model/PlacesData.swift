@@ -8,10 +8,10 @@
 import Foundation
 
 struct PlacesData: Codable {
-    let results: [Result1]
+    let results: [Places]
 }
 
-struct Result1: Codable {
+struct Places: Codable {
     let geometry: Geometry
     let icon: String
     let name: String

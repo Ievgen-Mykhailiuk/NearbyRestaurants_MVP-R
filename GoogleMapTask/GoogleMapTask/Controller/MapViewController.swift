@@ -76,6 +76,12 @@ final class MapViewController: UIViewController {
             }
         }
     }
+   
+    func showAlert(title: String, buttonTitle: String, error: Error) {
+        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 //MARK: - Extensions
@@ -85,13 +91,5 @@ extension MapViewController: LocationServiceProtocol {
             self.currentLocation = location
             self.setMapCamera(location: location)
         }
-    }
-}
-
-extension MapViewController {
-    func showAlert(title: String, buttonTitle: String, error: Error) {
-        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
 }

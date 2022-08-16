@@ -28,12 +28,12 @@ class LocationService: NSObject {
     }
     
     //MARK: - Methods
-    func getAddress(location: CLLocation, completion: @escaping (String) -> Void) {
+    func getAddress(location: CLLocation, completion: @escaping (Result<String, Error>) -> Void) {
         let geocoder = CLGeocoder()
         var address = [String]()
         geocoder.reverseGeocodeLocation(location) { response , error in
             if let error = error {
-                print(error.localizedDescription)
+                completion(.failure(error))
             }
             if let obj = response?.first {
                 if let building = obj.subThoroughfare {
@@ -48,7 +48,7 @@ class LocationService: NSObject {
                 if let country = obj.country {
                     address.append(country)
                 }
-                completion(address.joined(separator: ", "))
+                completion(.success(address.joined(separator: ", ")))
             }
         }
     }

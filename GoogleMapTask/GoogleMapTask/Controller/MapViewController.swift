@@ -15,7 +15,7 @@ final class MapViewController: UIViewController {
     private var locationManager = LocationService()
     private var networkManager = NetworkService()
     private let mapManager = GoogleMapService()
-    private var mapView = GMSMapView()
+    private var mapView: GMSMapView!
     private var currentLocation: CLLocation? {
         didSet {
             if let location = currentLocation {
@@ -37,7 +37,7 @@ final class MapViewController: UIViewController {
     }
     
     private func setupMap() {
-        mapView.frame = view.bounds
+        mapView = GMSMapView.map(withFrame: view.frame, camera: GMSCameraPosition())
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
         view.addSubview(mapView)
@@ -53,8 +53,13 @@ final class MapViewController: UIViewController {
         let location = CLLocation(latitude: place.latitude, longitude: place.longitude)
         marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         marker.title = place.name
-        locationManager.getAddress(location: location) { address in
-            marker.snippet = address
+        locationManager.getAddress(location: location) { (result: Result<String, Error>) in
+            switch result {
+            case .success(let address):
+                marker.snippet = address
+            case .failure(let error):
+                self.showAlert(title: "Error", buttonTitle: "OK", error: error)
+            }
         }
         marker.map = self.mapView
     }
@@ -69,18 +74,14 @@ final class MapViewController: UIViewController {
                                                  latitude: place.geometry.location.latitude,
                                                  icon: place.icon,
                                                  rank: place.rating ?? 0.0)
-                    self.addMarker(place: placeModel)
+                    DispatchQueue.main.async {
+                        self.addMarker(place: placeModel)
+                    }
                 }
             case .failure(let error):
                 self.showAlert(title: "Error", buttonTitle: "OK", error: error)
             }
         }
-    }
-   
-    func showAlert(title: String, buttonTitle: String, error: Error) {
-        let alert = UIAlertController(title: title, message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: buttonTitle, style: .destructive, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
 }
 

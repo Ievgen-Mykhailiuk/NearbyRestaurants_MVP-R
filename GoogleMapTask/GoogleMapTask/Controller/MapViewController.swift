@@ -12,25 +12,23 @@ import CoreLocation
 final class MapViewController: UIViewController {
     
     //MARK: - Properties
-    private var locationManager = LocationService()
-    private var networkManager = NetworkService()
-    private let mapManager = GoogleMapService()
+    private let locationManager = LocationService()
+    private let networkManager = NetworkService()
     private var mapView: GMSMapView!
+    private var placesArray = [PlacesModel]()
     private var currentLocation: CLLocation? {
         didSet {
-            if let location = currentLocation {
-                requestPlaces(location: location)
-            }
+            fetchPlaces(location: currentLocation)
         }
     }
     
-    //MARK: - Override methods
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
     }
     
-    //MARK: - Methods
+    //MARK: - Private Methods
     private func initialSetup() {
         setupMap()
         locationManager.delegate = self
@@ -44,53 +42,61 @@ final class MapViewController: UIViewController {
     }
     
     private func setMapCamera(location: CLLocation) {
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 14.0)
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+                                              longitude: location.coordinate.longitude,
+                                              zoom: 14.0)
         mapView.animate(to: camera)
     }
-    
-    private func addMarker(place: PlacesModel) {
-        let marker = GMSMarker()
-        let location = CLLocation(latitude: place.latitude, longitude: place.longitude)
-        marker.position = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
-        marker.title = place.name
-        locationManager.getAddress(location: location) { (result: Result<String, Error>) in
-            switch result {
-            case .success(let address):
-                marker.snippet = address
-            case .failure(let error):
-                self.showAlert(title: "Error", buttonTitle: "OK", error: error)
-            }
-        }
-        marker.map = self.mapView
-    }
-    
-    private func requestPlaces(location: CLLocation) {
-        networkManager.request(fromURL: .getPlaces(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)) { (result: Result<PlacesData, Error>) in
+
+    private func fetchPlaces(location: CLLocation?) {
+        guard let location = location else { return }
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
+        // make network request for places
+        networkManager.request(fromURL: .getPlaces(longitude: longitude, latitude: latitude),
+                               httpMethod: .get) {
+            [weak self] (result: Result<PlacesResults, Error>) in
             switch result {
             case .success(let places):
-                places.results.forEach { place in
-                    let placeModel = PlacesModel(name: place.name,
-                                                 longitude: place.geometry.location.longitude,
-                                                 latitude: place.geometry.location.latitude,
-                                                 icon: place.icon,
-                                                 rank: place.rating ?? 0.0)
-                    DispatchQueue.main.async {
-                        self.addMarker(place: placeModel)
+                DispatchQueue.main.async {
+                    
+                    // save results to property
+                    self?.placesArray = places.results
+                  
+                    // add markers to map
+                    self?.placesArray.forEach { place in
+                        self?.addMarker(name: place.name,
+                                        address: place.address,
+                                        longitude: place.location.coordinates.longitude,
+                                        latitude: place.location.coordinates.latitude)
                     }
                 }
             case .failure(let error):
-                self.showAlert(title: "Error", buttonTitle: "OK", error: error)
+                self?.showAlert(title: "OK", message: error.localizedDescription)
             }
         }
     }
+    
+    private func addMarker(name: String,
+                           address: String,
+                           longitude: Double,
+                           latitude: Double) {
+        
+        // setup marker
+        let marker = GMSMarker()
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        marker.position = location.coordinate
+        marker.title = name
+        marker.snippet = address
+        marker.map = self.mapView
+    }
 }
 
-//MARK: - Extensions
-extension MapViewController: LocationServiceProtocol {
-    func getCurrentLocation(location: CLLocation) {
-        DispatchQueue.main.async {
-            self.currentLocation = location
-            self.setMapCamera(location: location)
-        }
+//MARK: - LocationServiceDelegate
+extension MapViewController: LocationServiceDelegate {
+    func didUpdateLocation(location: CLLocation) {
+        self.currentLocation = location
+        self.setMapCamera(location: location)
     }
 }

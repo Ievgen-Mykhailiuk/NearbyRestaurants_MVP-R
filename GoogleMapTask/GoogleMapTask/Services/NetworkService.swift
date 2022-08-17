@@ -7,13 +7,17 @@
 
 import Foundation
 
+//MARK: - NetworkServiceProtocol
 protocol NetworkServiceProtocol {
-    func request<T: Codable>(fromURL url: PlacesAPI, completion: @escaping (Result<T, Error>) -> Void)
+    func request<T: Codable>(fromURL url: EndPoint,
+                             httpMethod: NetworkService.HttpMethod,
+                             completion: @escaping (Result<T, Error>) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol {
     
-    enum Errors: String, Error {
+    //MARK: - Network errors
+    enum NetworkErrors: String, Error {
         case invalidURL = "invalidURL"
         case invalidResponse = "Invalid response"
         case invalidStatusCode = "Invalid status code"
@@ -21,7 +25,17 @@ class NetworkService: NetworkServiceProtocol {
         case invalidData = "Invalid Data"
     }
     
-    func request<T: Codable>(fromURL url: PlacesAPI, completion: @escaping (Result<T, Error>) -> Void) {
+    //MARK: - Http methods
+    enum HttpMethod: String {
+        case get
+        case post
+        var method: String { rawValue.uppercased() }
+    }
+ 
+    //MARK: - Network request method
+    func request<T: Codable>(fromURL url: EndPoint,
+                             httpMethod: HttpMethod = .get,
+                             completion: @escaping (Result<T, Error>) -> Void) {
         
         let completionOnMain: (Result<T, Error>) -> Void = { result in
             DispatchQueue.main.async {
@@ -29,28 +43,31 @@ class NetworkService: NetworkServiceProtocol {
             }
         }
         
-        guard let url = url.url else {
-            completionOnMain(.failure(Errors.invalidURL))
+        guard let url = url.endPoint else {
+            completionOnMain(.failure(NetworkErrors.invalidURL))
             return }
         
-        let urlSession = URLSession.shared.dataTask(with: url) { data, response, error in
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.method
+        
+        let urlSession = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completionOnMain(.failure(error))
                 return
             }
             
             guard let urlResponse = response as? HTTPURLResponse else {
-                completionOnMain(.failure(Errors.invalidResponse))
+                completionOnMain(.failure(NetworkErrors.invalidResponse))
                 return
             }
             
             if !(200..<300).contains(urlResponse.statusCode) {
-                completionOnMain(.failure(Errors.invalidStatusCode))
+                completionOnMain(.failure(NetworkErrors.invalidStatusCode))
                 return
             }
             
             guard let data = data else {
-                completionOnMain(.failure(Errors.noData))
+                completionOnMain(.failure(NetworkErrors.noData))
                 return
             }
             
@@ -58,7 +75,7 @@ class NetworkService: NetworkServiceProtocol {
                 let places = try JSONDecoder().decode(T.self, from: data)
                 completionOnMain(.success(places))
             } catch {
-                completionOnMain(.failure(Errors.invalidData))
+                completionOnMain(.failure(NetworkErrors.invalidData))
             }
         }
         urlSession.resume()

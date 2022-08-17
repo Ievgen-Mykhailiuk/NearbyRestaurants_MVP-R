@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum PlacesAPI {
+enum EndPoint {
     case getPlaces(longitude: Double, latitude: Double)
 }
 
-extension PlacesAPI {
+extension EndPoint {
     
     var domainComponents: URLComponents {
         var components = URLComponents()
@@ -21,15 +21,14 @@ extension PlacesAPI {
         return components
     }
     
-    var url: URL? {
+    var endPoint: URL? {
         var components = domainComponents
-        let gmsManager = GoogleMapService()
         switch self {
         case .getPlaces( let longitude, let latitude):
             let location = URLQueryItem(name:"location", value: "\(latitude) \(longitude)")
             let type = URLQueryItem(name:"type", value: "restaurant")
             let radius = URLQueryItem(name: "radius", value: "5000")
-            let key = URLQueryItem(name: "key", value: "\(gmsManager.useApiKey())")
+            let key = URLQueryItem(name: "key", value: "\(Constants.apiKey)")
             components.queryItems = [location, type, radius, key]
         }
         return components.url

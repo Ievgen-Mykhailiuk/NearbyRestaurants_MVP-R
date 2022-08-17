@@ -21,7 +21,7 @@ extension EndPoint {
         return components
     }
     
-    var endPoint: URL? {
+    var url: URL? {
         var components = domainComponents
         switch self {
         case .getPlaces( let longitude, let latitude):

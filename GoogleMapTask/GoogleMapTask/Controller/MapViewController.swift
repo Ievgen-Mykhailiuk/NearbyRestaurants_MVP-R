@@ -15,9 +15,10 @@ final class MapViewController: UIViewController {
     private let locationManager = LocationService()
     private let networkManager = NetworkService()
     private var mapView: GMSMapView!
-    private var placesArray = [PlacesModel]()
+    private var nearbyPlaces = [PlacesModel]()
     private var currentLocation: CLLocation? {
         didSet {
+            setMapCamera(location: currentLocation)
             fetchPlaces(location: currentLocation)
         }
     }
@@ -41,7 +42,8 @@ final class MapViewController: UIViewController {
         view.addSubview(mapView)
     }
     
-    private func setMapCamera(location: CLLocation) {
+    private func setMapCamera(location: CLLocation?) {
+        guard let location = location else { return }
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: 14.0)
@@ -54,7 +56,7 @@ final class MapViewController: UIViewController {
         let longitude = location.coordinate.longitude
         
         // make network request for places
-        networkManager.request(fromURL: .getPlaces(longitude: longitude, latitude: latitude),
+        networkManager.request(from: .getPlaces(longitude: longitude, latitude: latitude),
                                httpMethod: .get) {
             [weak self] (result: Result<PlacesResults, Error>) in
             switch result {
@@ -62,33 +64,29 @@ final class MapViewController: UIViewController {
                 DispatchQueue.main.async {
                     
                     // save results to property
-                    self?.placesArray = places.results
+                    self?.nearbyPlaces = places.results
                   
                     // add markers to map
-                    self?.placesArray.forEach { place in
-                        self?.addMarker(name: place.name,
-                                        address: place.address,
-                                        longitude: place.location.coordinates.longitude,
-                                        latitude: place.location.coordinates.latitude)
+                    self?.nearbyPlaces.forEach { place in
+                        self?.addMarker(with: place)
                     }
                 }
             case .failure(let error):
-                self?.showAlert(title: "OK", message: error.localizedDescription)
+                self?.showAlert(title: "Error", message: error.localizedDescription)
             }
         }
     }
     
-    private func addMarker(name: String,
-                           address: String,
-                           longitude: Double,
-                           latitude: Double) {
+    private func addMarker(with place: PlacesModel) {
         
         // setup marker
         let marker = GMSMarker()
-        let location = CLLocation(latitude: latitude, longitude: longitude)
-        marker.position = location.coordinate
-        marker.title = name
-        marker.snippet = address
+        let latitude = place.location.coordinates.latitude
+        let longitude = place.location.coordinates.longitude
+        let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        marker.position = position
+        marker.title = place.name
+        marker.snippet = place.address
         marker.map = self.mapView
     }
 }
@@ -97,6 +95,5 @@ final class MapViewController: UIViewController {
 extension MapViewController: LocationServiceDelegate {
     func didUpdateLocation(location: CLLocation) {
         self.currentLocation = location
-        self.setMapCamera(location: location)
     }
 }

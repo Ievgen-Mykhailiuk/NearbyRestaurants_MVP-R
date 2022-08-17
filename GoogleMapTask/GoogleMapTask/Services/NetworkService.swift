@@ -9,7 +9,7 @@ import Foundation
 
 //MARK: - NetworkServiceProtocol
 protocol NetworkServiceProtocol {
-    func request<T: Codable>(fromURL url: EndPoint,
+    func request<T: Codable>(from endPoint: EndPoint,
                              httpMethod: NetworkService.HttpMethod,
                              completion: @escaping (Result<T, Error>) -> Void)
 }
@@ -17,7 +17,7 @@ protocol NetworkServiceProtocol {
 class NetworkService: NetworkServiceProtocol {
     
     //MARK: - Network errors
-    enum NetworkErrors: String, Error {
+    enum NetworkError: String, Error {
         case invalidURL = "invalidURL"
         case invalidResponse = "Invalid response"
         case invalidStatusCode = "Invalid status code"
@@ -33,7 +33,7 @@ class NetworkService: NetworkServiceProtocol {
     }
  
     //MARK: - Network request method
-    func request<T: Codable>(fromURL url: EndPoint,
+    func request<T: Codable>(from endPoint: EndPoint,
                              httpMethod: HttpMethod = .get,
                              completion: @escaping (Result<T, Error>) -> Void) {
         
@@ -43,8 +43,8 @@ class NetworkService: NetworkServiceProtocol {
             }
         }
         
-        guard let url = url.endPoint else {
-            completionOnMain(.failure(NetworkErrors.invalidURL))
+        guard let url = endPoint.url else {
+            completionOnMain(.failure(NetworkError.invalidURL))
             return }
         
         var request = URLRequest(url: url)
@@ -57,17 +57,17 @@ class NetworkService: NetworkServiceProtocol {
             }
             
             guard let urlResponse = response as? HTTPURLResponse else {
-                completionOnMain(.failure(NetworkErrors.invalidResponse))
+                completionOnMain(.failure(NetworkError.invalidResponse))
                 return
             }
             
             if !(200..<300).contains(urlResponse.statusCode) {
-                completionOnMain(.failure(NetworkErrors.invalidStatusCode))
+                completionOnMain(.failure(NetworkError.invalidStatusCode))
                 return
             }
             
             guard let data = data else {
-                completionOnMain(.failure(NetworkErrors.noData))
+                completionOnMain(.failure(NetworkError.noData))
                 return
             }
             
@@ -75,7 +75,7 @@ class NetworkService: NetworkServiceProtocol {
                 let places = try JSONDecoder().decode(T.self, from: data)
                 completionOnMain(.success(places))
             } catch {
-                completionOnMain(.failure(NetworkErrors.invalidData))
+                completionOnMain(.failure(NetworkError.invalidData))
             }
         }
         urlSession.resume()

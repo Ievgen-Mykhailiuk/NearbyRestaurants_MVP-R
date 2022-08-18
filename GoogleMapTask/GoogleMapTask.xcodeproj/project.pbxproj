@@ -20,7 +20,7 @@
 		FC5E52D128A6425300421075 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D028A6425300421075 /* LocationService.swift */; };
 		FC5E52D428A6A7C600421075 /* PlacesResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D328A6A7C600421075 /* PlacesResults.swift */; };
 		FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D528AA8B2600421075 /* EndPoint.swift */; };
-		FC5E52D828AB8D2D00421075 /* UIVIewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D728AB8D2D00421075 /* UIVIewController+Extensions.swift */; };
+		FC5E52D828AB8D2D00421075 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */; };
 		FC5E52DF28AC1D8B00421075 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52DE28AC1D8B00421075 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +38,7 @@
 		FC5E52D028A6425300421075 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		FC5E52D328A6A7C600421075 /* PlacesResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesResults.swift; sourceTree = "<group>"; };
 		FC5E52D528AA8B2600421075 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
-		FC5E52D728AB8D2D00421075 /* UIVIewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIewController+Extensions.swift"; sourceTree = "<group>"; };
+		FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		FC5E52DE28AC1D8B00421075 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,7 +135,7 @@
 		FC9C225328AD0A1B00AE43F4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FC5E52D728AB8D2D00421075 /* UIVIewController+Extensions.swift */,
+				FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -233,7 +233,7 @@
 				FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */,
 				FC5E52D128A6425300421075 /* LocationService.swift in Sources */,
 				FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */,
-				FC5E52D828AB8D2D00421075 /* UIVIewController+Extensions.swift in Sources */,
+				FC5E52D828AB8D2D00421075 /* UIViewController+Extensions.swift in Sources */,
 				FC5E52D428A6A7C600421075 /* PlacesResults.swift in Sources */,
 				FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */,
 				FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */,

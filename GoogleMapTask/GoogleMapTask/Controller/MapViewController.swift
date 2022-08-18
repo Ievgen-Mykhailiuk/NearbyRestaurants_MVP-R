@@ -67,27 +67,28 @@ final class MapViewController: UIViewController {
                     self?.nearbyPlaces = places.results
                   
                     // add markers to map
-                    self?.nearbyPlaces.forEach { place in
-                        self?.addMarker(with: place)
+                    self?.addMarkers(with: self?.nearbyPlaces)
                     }
-                }
             case .failure(let error):
                 self?.showAlert(title: "Error", message: error.localizedDescription)
             }
         }
     }
     
-    private func addMarker(with place: PlacesModel) {
+    private func addMarkers(with places: [PlacesModel]?) {
         
-        // setup marker
-        let marker = GMSMarker()
-        let latitude = place.location.coordinates.latitude
-        let longitude = place.location.coordinates.longitude
-        let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        marker.position = position
-        marker.title = place.name
-        marker.snippet = place.address
-        marker.map = self.mapView
+        // setup markers
+        guard let places = places else { return }
+        places.forEach { place in
+            let marker = GMSMarker()
+            let latitude = place.location.coordinates.latitude
+            let longitude = place.location.coordinates.longitude
+            let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            marker.position = position
+            marker.title = place.name
+            marker.snippet = place.address
+            marker.map = self.mapView
+        }
     }
 }
 

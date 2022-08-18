@@ -49,7 +49,7 @@ final class MapViewController: UIViewController {
                                               zoom: 14.0)
         mapView.animate(to: camera)
     }
-
+    
     private func fetchPlaces(location: CLLocation?) {
         guard let location = location else { return }
         let latitude = location.coordinate.latitude
@@ -65,30 +65,33 @@ final class MapViewController: UIViewController {
                     
                     // save results to property
                     self?.nearbyPlaces = places.results
-                  
+                    
                     // add markers to map
-                    self?.addMarkers(with: self?.nearbyPlaces)
-                    }
+                    self?.addMarkers()
+                }
             case .failure(let error):
                 self?.showAlert(title: "Error", message: error.localizedDescription)
             }
         }
     }
     
-    private func addMarkers(with places: [PlacesModel]?) {
-        
-        // setup markers
-        guard let places = places else { return }
-        places.forEach { place in
-            let marker = GMSMarker()
-            let latitude = place.location.coordinates.latitude
-            let longitude = place.location.coordinates.longitude
-            let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            marker.position = position
-            marker.title = place.name
-            marker.snippet = place.address
-            marker.map = self.mapView
+    private func addMarkers() {
+        self.nearbyPlaces.forEach { place in
+            markPlaceOnMap(with: place)
         }
+    }
+    
+    private func markPlaceOnMap(with place: PlacesModel) {
+        
+        // mark place on map
+        let marker = GMSMarker()
+        let latitude = place.location.coordinates.latitude
+        let longitude = place.location.coordinates.longitude
+        let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        marker.position = position
+        marker.title = place.name
+        marker.snippet = place.address
+        marker.map = self.mapView
     }
 }
 

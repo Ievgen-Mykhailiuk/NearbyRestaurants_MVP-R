@@ -16,7 +16,7 @@ protocol LocationServiceDelegate: AnyObject {
 final class LocationService: NSObject {
     
     //MARK: -Properties
-    private let manager = CLLocationManager()
+    let manager = CLLocationManager()
     weak var delegate: LocationServiceDelegate?
     
     //MARK: - Override init method
@@ -33,6 +33,6 @@ extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         self.delegate?.didUpdateLocation(location: location)
-        manager.stopUpdatingLocation()
+//        self.manager.stopUpdatingLocation()
     }
 }

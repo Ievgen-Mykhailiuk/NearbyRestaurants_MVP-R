@@ -29,9 +29,25 @@ final class MapViewController: UIViewController {
         initialSetup()
     }
     
+    @objc private func moreButtonPressed() {
+        let rootVC = DetailsViewController(places: self.nearbyPlaces)
+        self.navigationController?.pushViewController(rootVC, animated: true)
+    }
+
+    private func createMoreButton() {
+        let button = UIButton()
+        button.frame = CGRect(x: 20, y: 150, width: 70, height: 30)
+        button.backgroundColor = .blue
+        button.setTitle("More", for: .normal)
+        button.layer.cornerRadius = 14
+        button.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
+        mapView.addSubview(button)
+    }
+
     //MARK: - Private Methods
     private func initialSetup() {
         setupMap()
+        createMoreButton()
         locationManager.delegate = self
     }
     
@@ -99,5 +115,6 @@ final class MapViewController: UIViewController {
 extension MapViewController: LocationServiceDelegate {
     func didUpdateLocation(location: CLLocation) {
         self.currentLocation = location
+        locationManager.manager.stopUpdatingLocation()
     }
 }

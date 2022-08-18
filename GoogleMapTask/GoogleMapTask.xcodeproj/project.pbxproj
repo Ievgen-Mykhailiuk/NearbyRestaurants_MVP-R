@@ -1,0 +1,491 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA528A3FD4A00A75430 /* AppDelegate.swift */; };
+		FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */; };
+		FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA928A3FD4A00A75430 /* MapViewController.swift */; };
+		FC417CAD28A3FD4A00A75430 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC417CAB28A3FD4A00A75430 /* Main.storyboard */; };
+		FC417CAF28A3FD4D00A75430 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC417CAE28A3FD4D00A75430 /* Assets.xcassets */; };
+		FC417CB228A3FD4D00A75430 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */; };
+		FC417CBA28A4052300A75430 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CB928A4052300A75430 /* NetworkService.swift */; };
+		FC417CBF28A405A200A75430 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = FC417CBE28A405A200A75430 /* GoogleMaps */; };
+		FC5E52CD28A63C6500421075 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = FC5E52CC28A63C6500421075 /* GoogleMaps */; };
+		FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52CE28A63CC800421075 /* GoogleMapService.swift */; };
+		FC5E52D128A6425300421075 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D028A6425300421075 /* LocationService.swift */; };
+		FC5E52D428A6A7C600421075 /* PlacesResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D328A6A7C600421075 /* PlacesResults.swift */; };
+		FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D528AA8B2600421075 /* EndPoint.swift */; };
+		FC5E52D828AB8D2D00421075 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */; };
+		FC5E52DF28AC1D8B00421075 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5E52DE28AC1D8B00421075 /* Constants.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleMapTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC417CA528A3FD4A00A75430 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		FC417CA928A3FD4A00A75430 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		FC417CAC28A3FD4A00A75430 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FC417CAE28A3FD4D00A75430 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FC417CB128A3FD4D00A75430 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FC417CB328A3FD4D00A75430 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC417CB928A4052300A75430 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		FC5E52CE28A63CC800421075 /* GoogleMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapService.swift; sourceTree = "<group>"; };
+		FC5E52D028A6425300421075 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		FC5E52D328A6A7C600421075 /* PlacesResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesResults.swift; sourceTree = "<group>"; };
+		FC5E52D528AA8B2600421075 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		FC5E52DE28AC1D8B00421075 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC417C9F28A3FD4A00A75430 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5E52CD28A63C6500421075 /* GoogleMaps in Frameworks */,
+				FC417CBF28A405A200A75430 /* GoogleMaps in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FC417C9928A3FD4A00A75430 = {
+			isa = PBXGroup;
+			children = (
+				FC417CA428A3FD4A00A75430 /* GoogleMapTask */,
+				FC417CA328A3FD4A00A75430 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC417CA328A3FD4A00A75430 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC417CA428A3FD4A00A75430 /* GoogleMapTask */ = {
+			isa = PBXGroup;
+			children = (
+				FC9C225428AD0C0400AE43F4 /* Constants */,
+				FC9C225228AD0A0A00AE43F4 /* Application */,
+				FC9C225328AD0A1B00AE43F4 /* Extensions */,
+				FC5E52D228A6830400421075 /* Services */,
+				FC417CC228A406C000A75430 /* Model */,
+				FC417CC128A406B700A75430 /* View */,
+				FC417CC028A4069C00A75430 /* Controller */,
+				FC417CAE28A3FD4D00A75430 /* Assets.xcassets */,
+				FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */,
+				FC417CB328A3FD4D00A75430 /* Info.plist */,
+			);
+			path = GoogleMapTask;
+			sourceTree = "<group>";
+		};
+		FC417CC028A4069C00A75430 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FC417CA928A3FD4A00A75430 /* MapViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		FC417CC128A406B700A75430 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FC417CAB28A3FD4A00A75430 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FC417CC228A406C000A75430 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FC5E52D328A6A7C600421075 /* PlacesResults.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FC5E52D228A6830400421075 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FC5E52D528AA8B2600421075 /* EndPoint.swift */,
+				FC5E52D028A6425300421075 /* LocationService.swift */,
+				FC5E52CE28A63CC800421075 /* GoogleMapService.swift */,
+				FC417CB928A4052300A75430 /* NetworkService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		FC9C225228AD0A0A00AE43F4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */,
+				FC417CA528A3FD4A00A75430 /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		FC9C225328AD0A1B00AE43F4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FC9C225428AD0C0400AE43F4 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FC5E52DE28AC1D8B00421075 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC417CA128A3FD4A00A75430 /* GoogleMapTask */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC417CB628A3FD4D00A75430 /* Build configuration list for PBXNativeTarget "GoogleMapTask" */;
+			buildPhases = (
+				FC417C9E28A3FD4A00A75430 /* Sources */,
+				FC417C9F28A3FD4A00A75430 /* Frameworks */,
+				FC417CA028A3FD4A00A75430 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GoogleMapTask;
+			packageProductDependencies = (
+				FC417CBE28A405A200A75430 /* GoogleMaps */,
+				FC5E52CC28A63C6500421075 /* GoogleMaps */,
+			);
+			productName = GoogleMapTask;
+			productReference = FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC417C9A28A3FD4A00A75430 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					FC417CA128A3FD4A00A75430 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = FC417C9D28A3FD4A00A75430 /* Build configuration list for PBXProject "GoogleMapTask" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FC417C9928A3FD4A00A75430;
+			packageReferences = (
+				FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
+				FC5E52CB28A63C6500421075 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
+			);
+			productRefGroup = FC417CA328A3FD4A00A75430 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC417CA128A3FD4A00A75430 /* GoogleMapTask */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FC417CA028A3FD4A00A75430 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC417CB228A3FD4D00A75430 /* LaunchScreen.storyboard in Resources */,
+				FC417CAF28A3FD4D00A75430 /* Assets.xcassets in Resources */,
+				FC417CAD28A3FD4A00A75430 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FC417C9E28A3FD4A00A75430 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC417CBA28A4052300A75430 /* NetworkService.swift in Sources */,
+				FC5E52DF28AC1D8B00421075 /* Constants.swift in Sources */,
+				FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */,
+				FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */,
+				FC5E52D128A6425300421075 /* LocationService.swift in Sources */,
+				FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */,
+				FC5E52D828AB8D2D00421075 /* UIViewController+Extensions.swift in Sources */,
+				FC5E52D428A6A7C600421075 /* PlacesResults.swift in Sources */,
+				FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */,
+				FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FC417CAB28A3FD4A00A75430 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC417CAC28A3FD4A00A75430 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC417CB128A3FD4D00A75430 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FC417CB428A3FD4D00A75430 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FC417CB528A3FD4D00A75430 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FC417CB728A3FD4D00A75430 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C5PN73MFP3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoogleMapTask/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IM88.GoogleMapTask;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FC417CB828A3FD4D00A75430 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C5PN73MFP3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GoogleMapTask/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.IM88.GoogleMapTask;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FC417C9D28A3FD4A00A75430 /* Build configuration list for PBXProject "GoogleMapTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC417CB428A3FD4D00A75430 /* Debug */,
+				FC417CB528A3FD4D00A75430 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC417CB628A3FD4D00A75430 /* Build configuration list for PBXNativeTarget "GoogleMapTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC417CB728A3FD4D00A75430 /* Debug */,
+				FC417CB828A3FD4D00A75430 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/YAtechnologies/GoogleMaps-SP.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		FC5E52CB28A63C6500421075 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/YAtechnologies/GoogleMaps-SP.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FC417CBE28A405A200A75430 /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
+			productName = GoogleMaps;
+		};
+		FC5E52CC28A63C6500421075 /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
+			productName = GoogleMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FC417C9A28A3FD4A00A75430 /* Project object */;
+}

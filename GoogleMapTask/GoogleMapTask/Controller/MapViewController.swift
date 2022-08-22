@@ -29,25 +29,20 @@ final class MapViewController: UIViewController {
         initialSetup()
     }
     
-    @objc private func moreButtonPressed() {
-        let rootVC = DetailsViewController(places: self.nearbyPlaces)
+    //MARK: - Actions
+    @objc private func showListButtonTapped() {
+        showListScreen()
+    }
+    
+    //MARK: - Private Methods
+    private func showListScreen() {
+        let rootVC = ListViewController(places: self.nearbyPlaces)
         self.navigationController?.pushViewController(rootVC, animated: true)
     }
-
-    private func createMoreButton() {
-        let button = UIButton()
-        button.frame = CGRect(x: 20, y: 150, width: 70, height: 30)
-        button.backgroundColor = .blue
-        button.setTitle("More", for: .normal)
-        button.layer.cornerRadius = 14
-        button.addTarget(self, action: #selector(moreButtonPressed), for: .touchUpInside)
-        mapView.addSubview(button)
-    }
-
-    //MARK: - Private Methods
+    
     private func initialSetup() {
         setupMap()
-        createMoreButton()
+        addShowListButton()
         locationManager.delegate = self
     }
     
@@ -64,6 +59,19 @@ final class MapViewController: UIViewController {
                                               longitude: location.coordinate.longitude,
                                               zoom: 14.0)
         mapView.animate(to: camera)
+    }
+    
+    private func addShowListButton() {
+        let button = UIButton()
+        button.frame = CGRect(x: 20, y: 80 , width: 100, height: 30)
+        button.backgroundColor = .blue
+        button.alpha = 0.6
+        button.setTitle("Show list", for: .normal)
+        button.layer.cornerRadius = button.frame.height/2
+        button.addTarget(self,
+                         action: #selector(showListButtonTapped),
+                         for: .touchUpInside)
+        mapView.addSubview(button)
     }
     
     private func fetchPlaces(location: CLLocation?) {
@@ -103,7 +111,8 @@ final class MapViewController: UIViewController {
         let marker = GMSMarker()
         let latitude = place.location.coordinates.latitude
         let longitude = place.location.coordinates.longitude
-        let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let position = CLLocationCoordinate2D(latitude: latitude,
+                                              longitude: longitude)
         marker.position = position
         marker.title = place.name
         marker.snippet = place.address

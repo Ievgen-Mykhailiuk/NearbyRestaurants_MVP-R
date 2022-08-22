@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		FC3FDB2F28AE56EC00897C7B /* PlaceDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB2D28AE56EC00897C7B /* PlaceDetailsCell.swift */; };
 		FC3FDB3028AE56EC00897C7B /* PlaceDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC3FDB2E28AE56EC00897C7B /* PlaceDetailsCell.xib */; };
-		FC3FDB3228AE593500897C7B /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB3128AE593500897C7B /* DetailsViewController.swift */; };
+		FC3FDB3228AE593500897C7B /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB3128AE593500897C7B /* ListViewController.swift */; };
+		FC3FDB3728B013A600897C7B /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB3628B013A600897C7B /* UIImageView+Extension.swift */; };
+		FC3FDB3A28B013C900897C7B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FC3FDB3928B013C900897C7B /* Kingfisher */; };
 		FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA528A3FD4A00A75430 /* AppDelegate.swift */; };
 		FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */; };
 		FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA928A3FD4A00A75430 /* MapViewController.swift */; };
@@ -30,7 +32,8 @@
 /* Begin PBXFileReference section */
 		FC3FDB2D28AE56EC00897C7B /* PlaceDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsCell.swift; sourceTree = "<group>"; };
 		FC3FDB2E28AE56EC00897C7B /* PlaceDetailsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceDetailsCell.xib; sourceTree = "<group>"; };
-		FC3FDB3128AE593500897C7B /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		FC3FDB3128AE593500897C7B /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		FC3FDB3628B013A600897C7B /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleMapTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC417CA528A3FD4A00A75430 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC3FDB3A28B013C900897C7B /* Kingfisher in Frameworks */,
 				FC5E52CD28A63C6500421075 /* GoogleMaps in Frameworks */,
 				FC417CBF28A405A200A75430 /* GoogleMaps in Frameworks */,
 			);
@@ -98,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				FC417CA928A3FD4A00A75430 /* MapViewController.swift */,
-				FC3FDB3128AE593500897C7B /* DetailsViewController.swift */,
+				FC3FDB3128AE593500897C7B /* ListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -145,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				FC5E52D728AB8D2D00421075 /* UIViewController+Extensions.swift */,
+				FC3FDB3628B013A600897C7B /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 			packageProductDependencies = (
 				FC417CBE28A405A200A75430 /* GoogleMaps */,
 				FC5E52CC28A63C6500421075 /* GoogleMaps */,
+				FC3FDB3928B013C900897C7B /* Kingfisher */,
 			);
 			productName = GoogleMapTask;
 			productReference = FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */;
@@ -208,6 +214,7 @@
 			packageReferences = (
 				FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
 				FC5E52CB28A63C6500421075 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
+				FC3FDB3828B013C900897C7B /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = FC417CA328A3FD4A00A75430 /* Products */;
 			projectDirPath = "";
@@ -239,6 +246,7 @@
 			files = (
 				FC417CBA28A4052300A75430 /* NetworkService.swift in Sources */,
 				FC5E52DF28AC1D8B00421075 /* Constants.swift in Sources */,
+				FC3FDB3728B013A600897C7B /* UIImageView+Extension.swift in Sources */,
 				FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */,
 				FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */,
 				FC5E52D128A6425300421075 /* LocationService.swift in Sources */,
@@ -248,7 +256,7 @@
 				FC5E52D428A6A7C600421075 /* PlacesResults.swift in Sources */,
 				FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */,
 				FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */,
-				FC3FDB3228AE593500897C7B /* DetailsViewController.swift in Sources */,
+				FC3FDB3228AE593500897C7B /* ListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +318,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -469,6 +476,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FC3FDB3828B013C900897C7B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/YAtechnologies/GoogleMaps-SP.git";
@@ -488,6 +503,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FC3FDB3928B013C900897C7B /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC3FDB3828B013C900897C7B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		FC417CBE28A405A200A75430 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FC417CBD28A405A200A75430 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;

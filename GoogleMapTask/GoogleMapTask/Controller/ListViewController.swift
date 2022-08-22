@@ -7,11 +7,13 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController  {
+final class ListViewController: UIViewController  {
     
-    let tableview = UITableView()
-    var places: [PlacesModel]
+    //MARK: - Properties
+    private let tableview = UITableView()
+    private let places: [PlacesModel]
     
+    //MARK: - Life Cycle
     init(places: [PlacesModel]) {
         self.places = places
         super.init(nibName: nil, bundle: nil)
@@ -23,33 +25,37 @@ class DetailsViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableview.dataSource = self
-        tableview.delegate = self
-        self.tableview.register(UINib(nibName: Constants.classNibName, bundle: nil), forCellReuseIdentifier: Constants.detailCellIdentifier)
-        view.addSubview(tableview)
+        initialSetup()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tableview.frame = view.bounds
     }
+    
+    //MARK: - Private methods
+    private func initialSetup() {
+        navigationItem.title = "List"
+        tableview.dataSource = self
+        tableview.delegate = self
+        tableview.register(UINib(nibName: Constants.cellNibName, bundle: nil),
+                           forCellReuseIdentifier: Constants.cellIdentifier)
+        view.addSubview(tableview)
+    }
 }
 
-extension DetailsViewController: UITableViewDataSource {
+//MARK: - UITableViewDataSource & UITableViewDelegate
+extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableview.dequeueReusableCell(withIdentifier: Constants.detailCellIdentifier, for: indexPath) as! PlaceDetailsCell
+        let cell = tableview.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
+                                                 for: indexPath) as! PlaceDetailsCell
         let place = places[indexPath.row]
         cell.configure(model: place)
         return cell
     }
-}
-
-extension DetailsViewController: UITableViewDelegate {
-    
 }

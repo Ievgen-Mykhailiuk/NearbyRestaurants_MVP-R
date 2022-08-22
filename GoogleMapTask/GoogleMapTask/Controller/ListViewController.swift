@@ -10,7 +10,7 @@ import UIKit
 final class ListViewController: UIViewController  {
     
     //MARK: - Properties
-    private let tableview = UITableView()
+    private let tableView = UITableView()
     private let places: [PlacesModel]
     
     //MARK: - Life Cycle
@@ -27,32 +27,42 @@ final class ListViewController: UIViewController  {
         super.viewDidLoad()
         initialSetup()
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        tableview.frame = view.bounds
-    }
-    
+
     //MARK: - Private methods
     private func initialSetup() {
-        navigationItem.title = "List"
-        tableview.dataSource = self
-        tableview.delegate = self
-        tableview.register(UINib(nibName: Constants.cellNibName, bundle: nil),
+        navigationItem.title = .navigationTitle
+        setupTableView()
+        addSubviews()
+        setupConstraints()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
+    }
+    
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: Constants.cellIdentifier, bundle: nil),
                            forCellReuseIdentifier: Constants.cellIdentifier)
-        view.addSubview(tableview)
+    }
+    
+    private func setupConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
 }
 
-//MARK: - UITableViewDataSource & UITableViewDelegate
-extension ListViewController: UITableViewDataSource, UITableViewDelegate {
-    
+//MARK: - UITableViewDataSource 
+extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableview.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
                                                  for: indexPath) as! PlaceDetailsCell
         let place = places[indexPath.row]
         cell.configure(model: place)

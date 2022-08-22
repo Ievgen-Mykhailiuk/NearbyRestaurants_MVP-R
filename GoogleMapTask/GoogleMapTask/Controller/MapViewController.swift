@@ -22,46 +22,7 @@ final class MapViewController: UIViewController {
             fetchPlaces(location: currentLocation)
         }
     }
-    
-    //MARK: - View Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        initialSetup()
-    }
-    
-    //MARK: - Actions
-    @objc private func showListButtonTapped() {
-        showListScreen()
-    }
-    
-    //MARK: - Private Methods
-    private func showListScreen() {
-        let rootVC = ListViewController(places: self.nearbyPlaces)
-        self.navigationController?.pushViewController(rootVC, animated: true)
-    }
-    
-    private func initialSetup() {
-        setupMap()
-        addShowListButton()
-        locationManager.delegate = self
-    }
-    
-    private func setupMap() {
-        mapView = GMSMapView.map(withFrame: view.frame, camera: GMSCameraPosition())
-        mapView.settings.myLocationButton = true
-        mapView.isMyLocationEnabled = true
-        view.addSubview(mapView)
-    }
-    
-    private func setMapCamera(location: CLLocation?) {
-        guard let location = location else { return }
-        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
-                                              longitude: location.coordinate.longitude,
-                                              zoom: 14.0)
-        mapView.animate(to: camera)
-    }
-    
-    private func addShowListButton() {
+    lazy private var listButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 20, y: 80 , width: 100, height: 30)
         button.backgroundColor = .blue
@@ -71,7 +32,61 @@ final class MapViewController: UIViewController {
         button.addTarget(self,
                          action: #selector(showListButtonTapped),
                          for: .touchUpInside)
-        mapView.addSubview(button)
+        return button
+    }()
+    
+    //MARK: - View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initialSetup()
+    }
+    
+    //MARK: - Actions
+    @objc private func showListButtonTapped() {
+        showList()
+    }
+    
+    //MARK: - Private Methods
+   
+    private func initialSetup() {
+        setupMap()
+        addSubviews()
+        didUpdateLocation()
+    }
+    
+    private func setupMap() {
+        mapView = GMSMapView(frame: view.frame)
+        mapView.settings.myLocationButton = true
+        mapView.isMyLocationEnabled = true
+    }
+    
+    private func addSubviews() {
+        view.addSubview(mapView)
+        mapView.addSubview(listButton)
+    }
+    
+    private func didUpdateLocation() {
+        locationManager.provideCurrentLocation { result in
+            switch result {
+            case .success(let location):
+                self.currentLocation = location
+            case .failure(let error):
+                self.showAlert(title: "Error", message: error.localizedDescription)
+            }
+        }
+    }
+  
+    private func setMapCamera(location: CLLocation?) {
+        guard let location = location else { return }
+        let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
+                                              longitude: location.coordinate.longitude,
+                                              zoom: 13.0)
+        mapView.animate(to: camera)
+    }
+    
+    private func showList() {
+        let rootVC = ListViewController(places: self.nearbyPlaces)
+        self.navigationController?.pushViewController(rootVC, animated: true)
     }
     
     private func fetchPlaces(location: CLLocation?) {
@@ -117,13 +132,5 @@ final class MapViewController: UIViewController {
         marker.title = place.name
         marker.snippet = place.address
         marker.map = self.mapView
-    }
-}
-
-//MARK: - LocationServiceDelegate
-extension MapViewController: LocationServiceDelegate {
-    func didUpdateLocation(location: CLLocation) {
-        self.currentLocation = location
-        locationManager.manager.stopUpdatingLocation()
     }
 }

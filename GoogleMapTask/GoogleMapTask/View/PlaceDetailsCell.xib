@@ -11,73 +11,79 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailsCell" rowHeight="92" id="KGk-i7-Jjw" customClass="PlaceDetailsCell" customModule="GoogleMapTask" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="440" height="92"/>
+        <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlaceDetailsCell" rowHeight="127" id="KGk-i7-Jjw" customClass="PlaceDetailsCell" customModule="GoogleMapTask" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="467" height="127"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="440" height="92"/>
+                <rect key="frame" x="0.0" y="0.0" width="467" height="127"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fork.knife.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="K5F-mV-DxP">
-                        <rect key="frame" x="10" y="10.5" width="20" height="19"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="globe" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="K5F-mV-DxP">
+                        <rect key="frame" x="10" y="24" width="80" height="79"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="K5F-mV-DxP" secondAttribute="height" multiplier="1:1" id="ax9-Fl-u0T"/>
+                            <constraint firstAttribute="width" constant="80" id="Amg-G6-ggX"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="Biv-bG-oi1"/>
+                            <constraint firstAttribute="height" constant="80" id="OsK-AT-nUg"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="njl-ce-Yz7"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fWB-bV-WPc">
-                        <rect key="frame" x="40" y="10" width="390" height="72"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Hermeskeiler Str. 5, 54292 Trier" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGs-bq-g0u">
+                        <rect key="frame" x="100" y="63" width="357" height="18"/>
+                        <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Restaurant Pizza Federico" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="Zi2-Yk-K0Q">
+                        <rect key="frame" x="100" y="10" width="357" height="48"/>
+                        <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldMT" family="Times New Roman" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="NtC-TJ-lw5">
+                        <rect key="frame" x="100" y="86" width="54" height="20"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Ristorante Pizzeria Federico" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zi2-Yk-K0Q">
-                                <rect key="frame" x="0.0" y="0.0" width="195" height="24"/>
-                                <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldMT" family="Times New Roman" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hermeskeiler Str. 5, 54292 Trier" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGs-bq-g0u">
-                                <rect key="frame" x="0.0" y="29" width="207.5" height="18"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NY2-zJ-lGd">
+                                <rect key="frame" x="0.0" y="-0.5" width="22" height="20"/>
+                                <color key="tintColor" systemColor="systemYellowColor"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="reusableCell" text="5.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlE-aK-QQe">
+                                <rect key="frame" x="34" y="0.0" width="20" height="20"/>
                                 <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="NtC-TJ-lw5">
-                                <rect key="frame" x="0.0" y="52" width="54" height="20"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NY2-zJ-lGd">
-                                        <rect key="frame" x="0.0" y="-0.5" width="22" height="20"/>
-                                        <color key="tintColor" systemColor="systemYellowColor"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="reusableCell" text="5.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlE-aK-QQe">
-                                        <rect key="frame" x="34" y="0.0" width="20" height="20"/>
-                                        <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="CNB-Td-nIK"/>
+                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="fWB-bV-WPc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="5UR-RL-xFw"/>
-                    <constraint firstItem="fWB-bV-WPc" firstAttribute="leading" secondItem="K5F-mV-DxP" secondAttribute="trailing" constant="10" id="68N-Ke-LJn"/>
-                    <constraint firstItem="K5F-mV-DxP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="AaL-Oy-ZiT"/>
-                    <constraint firstAttribute="trailing" secondItem="fWB-bV-WPc" secondAttribute="trailing" constant="10" id="aXY-Xc-3zR"/>
-                    <constraint firstItem="K5F-mV-DxP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="abu-aK-MGY"/>
-                    <constraint firstAttribute="bottom" secondItem="fWB-bV-WPc" secondAttribute="bottom" constant="10" id="yg5-la-kQb"/>
+                    <constraint firstItem="NtC-TJ-lw5" firstAttribute="top" secondItem="PGs-bq-g0u" secondAttribute="bottom" constant="5" id="30B-MH-sCg"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="NtC-TJ-lw5" secondAttribute="bottom" constant="10" id="3az-rp-9dB"/>
+                    <constraint firstItem="PGs-bq-g0u" firstAttribute="top" secondItem="Zi2-Yk-K0Q" secondAttribute="bottom" constant="5" id="4n0-6Y-SNg"/>
+                    <constraint firstItem="PGs-bq-g0u" firstAttribute="leading" secondItem="Zi2-Yk-K0Q" secondAttribute="leading" id="A2u-EV-LgM"/>
+                    <constraint firstItem="K5F-mV-DxP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="I75-Gl-ZZh"/>
+                    <constraint firstItem="Zi2-Yk-K0Q" firstAttribute="leading" secondItem="K5F-mV-DxP" secondAttribute="trailing" constant="10" id="Mz0-SM-fXt"/>
+                    <constraint firstItem="K5F-mV-DxP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NNM-sb-ceQ"/>
+                    <constraint firstAttribute="trailing" secondItem="Zi2-Yk-K0Q" secondAttribute="trailing" constant="10" id="Uno-gA-8ZP"/>
+                    <constraint firstItem="NtC-TJ-lw5" firstAttribute="leading" secondItem="PGs-bq-g0u" secondAttribute="leading" id="VEO-ye-V6Y"/>
+                    <constraint firstItem="Zi2-Yk-K0Q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="WYg-r2-e8t"/>
+                    <constraint firstAttribute="trailing" secondItem="PGs-bq-g0u" secondAttribute="trailing" constant="10" id="Xar-Uk-aaW"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="placeAddressLabel" destination="PGs-bq-g0u" id="zUd-Hv-khu"/>
-                <outlet property="placeIconImage" destination="K5F-mV-DxP" id="l97-xQ-B5Y"/>
+                <outlet property="placeIconImageView" destination="K5F-mV-DxP" id="l97-xQ-B5Y"/>
                 <outlet property="placeNameLabel" destination="Zi2-Yk-K0Q" id="OFT-GR-sNJ"/>
                 <outlet property="placeRankLabel" destination="DlE-aK-QQe" id="Tf1-HR-68S"/>
             </connections>
-            <point key="canvasLocation" x="226.08695652173915" y="-154.01785714285714"/>
+            <point key="canvasLocation" x="-55.797101449275367" y="-136.94196428571428"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="fork.knife.circle" catalog="system" width="128" height="121"/>
+        <image name="globe" catalog="system" width="128" height="121"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

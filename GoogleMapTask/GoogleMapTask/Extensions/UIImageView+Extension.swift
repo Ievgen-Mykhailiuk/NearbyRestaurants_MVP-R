@@ -9,10 +9,26 @@
 import UIKit
 import Kingfisher
 
+typealias ImageBlock = (UIImage?) -> Void
+
 extension UIImageView {
-    func getIconForPlace(iconUrl: String) {
-        if let url = URL(string: iconUrl) {
-            self.kf.setImage(with: url)
+    func setImage(imageUrl: String,
+                  placeholder: UIImage? = nil,
+                  completion: ImageBlock? = nil) {
+        guard let url = URL(string: imageUrl) else {
+            completion?(nil)
+            return
+        }
+        self.kf.setImage(with: url,
+                         placeholder: placeholder,
+                         options: [.fromMemoryCacheOrRefresh],
+                         progressBlock: nil) { result in
+            switch result {
+            case .success(let imageResult):
+                completion?(imageResult.image)
+            case .failure(_):
+                completion?(nil)
+            }
         }
     }
 }

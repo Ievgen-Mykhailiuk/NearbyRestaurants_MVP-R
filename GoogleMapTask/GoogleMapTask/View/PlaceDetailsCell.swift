@@ -10,27 +10,22 @@ import UIKit
 final class PlaceDetailsCell: UITableViewCell {
     
     //MARK: - Outlets
-    @IBOutlet weak var placeIconImage: UIImageView!
-    @IBOutlet weak var placeNameLabel: UILabel!
-    @IBOutlet weak var placeAddressLabel: UILabel!
-    @IBOutlet weak var placeRankLabel: UILabel!
+    @IBOutlet weak private var placeIconImageView: UIImageView!
+    @IBOutlet weak private var placeNameLabel: UILabel!
+    @IBOutlet weak private var placeAddressLabel: UILabel!
+    @IBOutlet weak private var placeRankLabel: UILabel!
     
     //MARK: - Override methods
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        placeIconImageView.image = nil
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
     //MARK: - Cell's content configuration
     func configure(model: PlacesModel) {
-        DispatchQueue.main.async {
-            self.placeIconImage.getIconForPlace(iconUrl: model.iconUrl)
-            self.placeNameLabel.text = model.name
-            self.placeAddressLabel.text = model.address
-            self.placeRankLabel.text = (String(model.rating ?? 0.0))
-        }
+        self.placeIconImageView.setImage(imageUrl: model.iconUrl) 
+        self.placeNameLabel.text = model.name
+        self.placeAddressLabel.text = model.address
+        self.placeRankLabel.text = model.rating?.stringValue ?? .empty
     }
 }

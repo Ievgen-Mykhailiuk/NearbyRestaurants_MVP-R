@@ -1,0 +1,73 @@
+//
+//  DetailsViewController.swift
+//  GoogleMapTask
+//
+//  Created by Евгений  on 18/08/2022.
+//
+
+import UIKit
+
+final class ListViewController: UIViewController  {
+    
+    //MARK: - Properties
+    private let tableView = UITableView()
+    private let places: [PlacesModel]
+    private let cellIdentifier = String(describing: PlaceDetailsCell.self)
+    
+    //MARK: - Life Cycle
+    init(places: [PlacesModel]) {
+        self.places = places
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initialSetup()
+    }
+
+    //MARK: - Private methods
+    private func initialSetup() {
+        navigationItem.title = .navigationTitle
+        view.addSubview(tableView)
+        setupTableView()
+    }
+
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: cellIdentifier, bundle: nil),
+                           forCellReuseIdentifier: cellIdentifier)
+        setupTableViewConstraints()
+    }
+    
+    private func setupTableViewConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+}
+
+//MARK: - UITableViewDataSource 
+extension ListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return places.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
+                                                 for: indexPath) as! PlaceDetailsCell
+        let place = places[indexPath.row]
+        cell.configure(model: place)
+        return cell
+    }
+}
+
+//MARK: - Private extension
+private extension String {
+    static let navigationTitle = "List"
+}

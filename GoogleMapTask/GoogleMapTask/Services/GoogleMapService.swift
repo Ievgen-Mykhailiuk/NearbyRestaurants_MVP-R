@@ -13,7 +13,6 @@ protocol GoogleMapServiceProtocol: AnyObject {
 }
 
 class GoogleMapService: GoogleMapServiceProtocol {
-    
     func configure() {
         GMSServices.provideAPIKey(Constants.apiKey)
     }

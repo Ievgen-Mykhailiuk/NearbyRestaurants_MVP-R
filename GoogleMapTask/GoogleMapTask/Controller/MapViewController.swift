@@ -22,6 +22,18 @@ final class MapViewController: UIViewController {
             fetchPlaces(location: currentLocation)
         }
     }
+    lazy private var listButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRect(x: 20, y: 80 , width: 100, height: 30)
+        button.backgroundColor = .blue
+        button.alpha = 0.6
+        button.setTitle("Show list", for: .normal)
+        button.makeRounded()
+        button.addTarget(self,
+                         action: #selector(showListButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -29,25 +41,45 @@ final class MapViewController: UIViewController {
         initialSetup()
     }
     
+    //MARK: - Actions
+    @objc private func showListButtonTapped() {
+        showList()
+    }
+    
     //MARK: - Private Methods
     private func initialSetup() {
         setupMap()
-        locationManager.delegate = self
+        addSubviews()
+        setupLocationManager()
     }
     
     private func setupMap() {
-        mapView = GMSMapView.map(withFrame: view.frame, camera: GMSCameraPosition())
+        mapView = GMSMapView(frame: view.frame)
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
-        view.addSubview(mapView)
     }
     
+    private func addSubviews() {
+        view.addSubview(mapView)
+        mapView.addSubview(listButton)
+    }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.startUpdatingLocation()
+    }
+  
     private func setMapCamera(location: CLLocation?) {
         guard let location = location else { return }
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
-                                              zoom: 14.0)
+                                              zoom: 13.0)
         mapView.animate(to: camera)
+    }
+    
+    private func showList() {
+        let rootVC = ListViewController(places: self.nearbyPlaces)
+        self.navigationController?.pushViewController(rootVC, animated: true)
     }
     
     private func fetchPlaces(location: CLLocation?) {
@@ -87,7 +119,8 @@ final class MapViewController: UIViewController {
         let marker = GMSMarker()
         let latitude = place.location.coordinates.latitude
         let longitude = place.location.coordinates.longitude
-        let position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let position = CLLocationCoordinate2D(latitude: latitude,
+                                              longitude: longitude)
         marker.position = position
         marker.title = place.name
         marker.snippet = place.address
@@ -97,7 +130,7 @@ final class MapViewController: UIViewController {
 
 //MARK: - LocationServiceDelegate
 extension MapViewController: LocationServiceDelegate {
-    func didUpdateLocation(location: CLLocation) {
+    func didUpdateLocation(location: CLLocation?) {
         self.currentLocation = location
     }
 }

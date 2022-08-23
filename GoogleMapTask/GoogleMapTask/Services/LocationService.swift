@@ -8,22 +8,35 @@
 import Foundation
 import CoreLocation
 
-//MARK: - LocationServiceDelegate
 protocol LocationServiceDelegate: AnyObject {
-    func didUpdateLocation(location: CLLocation)
+    func didUpdateLocation(location: CLLocation?)
 }
 
 final class LocationService: NSObject {
     
-    //MARK: -Properties
+    //MARK: - Properties
     private let manager = CLLocationManager()
+    private var currentLocation: CLLocation? {
+        didSet {
+            self.delegate?.didUpdateLocation(location: currentLocation)
+        }
+    }
     weak var delegate: LocationServiceDelegate?
+    
+    //MARK: - Errors
+    enum LocationError: String, Error {
+        case noLocation = "Current location unavailable"
+    }
     
     //MARK: - Override init method
     override init() {
         super.init()
         manager.delegate = self
         manager.requestWhenInUseAuthorization()
+    }
+        
+    //MARK: - Provide location method
+    func startUpdatingLocation() {
         manager.startUpdatingLocation()
     }
 }
@@ -31,8 +44,7 @@ final class LocationService: NSObject {
 //MARK: - CLLocationManagerDelegate
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        self.delegate?.didUpdateLocation(location: location)
-        manager.stopUpdatingLocation()
+        self.manager.stopUpdatingLocation()
+        self.currentLocation = locations.first
     }
 }

@@ -8,8 +8,17 @@
 import UIKit
 
 extension UIView {
-    func makeRound() {
-        self.clipsToBounds = true
-        self.layer.cornerRadius = self.frame.height/2
+    var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.masksToBounds = true
+            self.layer.cornerRadius = newValue
+        }
+    }
+    
+    func makeRounded() {
+        cornerRadius = self.frame.height/2
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 protocol LocationServiceDelegate: AnyObject {
-    func didUpdateLocation(location: CLLocation)
+    func didUpdateLocation(location: CLLocation?)
 }
 
 final class LocationService: NSObject {
@@ -18,8 +18,7 @@ final class LocationService: NSObject {
     private let manager = CLLocationManager()
     private var currentLocation: CLLocation? {
         didSet {
-            guard let location = self.currentLocation else { return }
-            self.delegate?.didUpdateLocation(location: location)
+            self.delegate?.didUpdateLocation(location: currentLocation)
         }
     }
     weak var delegate: LocationServiceDelegate?
@@ -37,7 +36,7 @@ final class LocationService: NSObject {
     }
         
     //MARK: - Provide location method
-    func startUpdateLocation() {
+    func startUpdatingLocation() {
         manager.startUpdatingLocation()
     }
 }
@@ -46,7 +45,7 @@ final class LocationService: NSObject {
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.manager.stopUpdatingLocation()
-        guard let location = locations.first else { return }
+        let location = locations.first 
         self.currentLocation = location
     }
 }

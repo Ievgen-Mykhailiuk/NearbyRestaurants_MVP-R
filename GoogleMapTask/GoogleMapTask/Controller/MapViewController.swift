@@ -12,7 +12,7 @@ import CoreLocation
 final class MapViewController: UIViewController {
     
     //MARK: - Properties
-    private var locationManager = LocationService()
+    private let locationManager = LocationService()
     private let networkManager = NetworkService()
     private var mapView: GMSMapView!
     private var nearbyPlaces = [PlacesModel]()
@@ -28,7 +28,7 @@ final class MapViewController: UIViewController {
         button.backgroundColor = .blue
         button.alpha = 0.6
         button.setTitle("Show list", for: .normal)
-        button.makeRound()
+        button.makeRounded()
         button.addTarget(self,
                          action: #selector(showListButtonTapped),
                          for: .touchUpInside)
@@ -66,7 +66,7 @@ final class MapViewController: UIViewController {
     
     private func setupLocationManager() {
         locationManager.delegate = self
-        locationManager.startUpdateLocation()
+        locationManager.startUpdatingLocation()
     }
   
     private func setMapCamera(location: CLLocation?) {
@@ -130,7 +130,7 @@ final class MapViewController: UIViewController {
 
 //MARK: - LocationServiceDelegate
 extension MapViewController: LocationServiceDelegate {
-    func didUpdateLocation(location: CLLocation) {
+    func didUpdateLocation(location: CLLocation?) {
         self.currentLocation = location
     }
 }

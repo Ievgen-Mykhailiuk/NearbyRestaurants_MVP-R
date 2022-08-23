@@ -12,7 +12,7 @@ import CoreLocation
 final class MapViewController: UIViewController {
     
     //MARK: - Properties
-    private let locationManager = LocationService()
+    private var locationManager = LocationService()
     private let networkManager = NetworkService()
     private var mapView: GMSMapView!
     private var nearbyPlaces = [PlacesModel]()
@@ -28,7 +28,7 @@ final class MapViewController: UIViewController {
         button.backgroundColor = .blue
         button.alpha = 0.6
         button.setTitle("Show list", for: .normal)
-        button.layer.cornerRadius = button.frame.height/2
+        button.makeRound()
         button.addTarget(self,
                          action: #selector(showListButtonTapped),
                          for: .touchUpInside)
@@ -47,11 +47,10 @@ final class MapViewController: UIViewController {
     }
     
     //MARK: - Private Methods
-   
     private func initialSetup() {
         setupMap()
         addSubviews()
-        didUpdateLocation()
+        setupLocationManager()
     }
     
     private func setupMap() {
@@ -65,15 +64,9 @@ final class MapViewController: UIViewController {
         mapView.addSubview(listButton)
     }
     
-    private func didUpdateLocation() {
-        locationManager.provideCurrentLocation { result in
-            switch result {
-            case .success(let location):
-                self.currentLocation = location
-            case .failure(let error):
-                self.showAlert(title: "Error", message: error.localizedDescription)
-            }
-        }
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.startUpdateLocation()
     }
   
     private func setMapCamera(location: CLLocation?) {
@@ -132,5 +125,12 @@ final class MapViewController: UIViewController {
         marker.title = place.name
         marker.snippet = place.address
         marker.map = self.mapView
+    }
+}
+
+//MARK: - LocationServiceDelegate
+extension MapViewController: LocationServiceDelegate {
+    func didUpdateLocation(location: CLLocation) {
+        self.currentLocation = location
     }
 }

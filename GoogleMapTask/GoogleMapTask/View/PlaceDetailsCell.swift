@@ -15,17 +15,12 @@ final class PlaceDetailsCell: UITableViewCell {
     @IBOutlet weak private var placeAddressLabel: UILabel!
     @IBOutlet weak private var placeRankLabel: UILabel!
     
-    //MARK: - Override methods
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        placeIconImageView.image = nil
-    }
-    
     //MARK: - Cell's content configuration
     func configure(model: PlacesModel) {
-        self.placeIconImageView.setImage(imageUrl: model.iconUrl) 
-        self.placeNameLabel.text = model.name
-        self.placeAddressLabel.text = model.address
-        self.placeRankLabel.text = model.rating?.stringValue ?? .empty
+        placeIconImageView.image = nil
+        placeIconImageView.setImage(imageUrl: model.iconUrl)
+        placeNameLabel.text = model.name
+        placeAddressLabel.text = model.address
+        placeRankLabel.text = model.rating?.stringValue ?? .empty
     }
 }

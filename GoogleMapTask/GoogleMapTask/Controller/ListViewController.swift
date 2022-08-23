@@ -12,6 +12,7 @@ final class ListViewController: UIViewController  {
     //MARK: - Properties
     private let tableView = UITableView()
     private let places: [PlacesModel]
+    private let cellIdentifier = String(describing: PlaceDetailsCell.self)
     
     //MARK: - Life Cycle
     init(places: [PlacesModel]) {
@@ -31,22 +32,18 @@ final class ListViewController: UIViewController  {
     //MARK: - Private methods
     private func initialSetup() {
         navigationItem.title = .navigationTitle
-        setupTableView()
-        addSubviews()
-        setupConstraints()
-    }
-    
-    private func addSubviews() {
         view.addSubview(tableView)
+        setupTableView()
     }
-    
+
     private func setupTableView() {
         tableView.dataSource = self
-        tableView.register(UINib(nibName: Constants.cellIdentifier, bundle: nil),
-                           forCellReuseIdentifier: Constants.cellIdentifier)
+        tableView.register(UINib(nibName: cellIdentifier, bundle: nil),
+                           forCellReuseIdentifier: cellIdentifier)
+        setupTableViewConstraints()
     }
     
-    private func setupConstraints() {
+    private func setupTableViewConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -62,10 +59,14 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier,
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! PlaceDetailsCell
         let place = places[indexPath.row]
         cell.configure(model: place)
         return cell
     }
+}
+
+private extension String {
+    static let navigationTitle = "List"
 }

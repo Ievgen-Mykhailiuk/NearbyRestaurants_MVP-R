@@ -8,6 +8,5 @@
 import Foundation
 
 extension String {
-    static let navigationTitle = "List"
     static let empty = ""
 }

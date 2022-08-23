@@ -9,5 +9,4 @@ import Foundation
 
 struct Constants {
     static let apiKey = "AIzaSyBYu4A-M-dIFgIaMcm61RosaP1SB4Ggxww"
-    static let cellIdentifier = "PlaceDetailsCell"
 }

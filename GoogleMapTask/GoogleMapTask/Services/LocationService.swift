@@ -8,11 +8,21 @@
 import Foundation
 import CoreLocation
 
+protocol LocationServiceDelegate: AnyObject {
+    func didUpdateLocation(location: CLLocation)
+}
+
 final class LocationService: NSObject {
     
     //MARK: - Properties
     private let manager = CLLocationManager()
-    private var currentLocation: CLLocation?
+    private var currentLocation: CLLocation? {
+        didSet {
+            guard let location = self.currentLocation else { return }
+            self.delegate?.didUpdateLocation(location: location)
+        }
+    }
+    weak var delegate: LocationServiceDelegate?
     
     //MARK: - Errors
     enum LocationError: String, Error {
@@ -24,24 +34,19 @@ final class LocationService: NSObject {
         super.init()
         manager.delegate = self
         manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
     }
-    
+        
     //MARK: - Provide location method
-    func provideCurrentLocation(completion: (Result<CLLocation, Error>) -> Void) {
-        guard let location = self.currentLocation else {
-            completion(.failure(LocationError.noLocation))
-            return
-        }
-        completion(.success(location))
+    func startUpdateLocation() {
+        manager.startUpdatingLocation()
     }
 }
 
 //MARK: - CLLocationManagerDelegate
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
         self.manager.stopUpdatingLocation()
+        guard let location = locations.first else { return }
         self.currentLocation = location
     }
 }

@@ -14,11 +14,11 @@ extension UIView {
         }
         set {
             layer.masksToBounds = true
-            self.layer.cornerRadius = newValue
+            layer.cornerRadius = newValue
         }
     }
     
     func makeRounded() {
-        cornerRadius = self.frame.height/2
+        cornerRadius = frame.height/2
     }
 }

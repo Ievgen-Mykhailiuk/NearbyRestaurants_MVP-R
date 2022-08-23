@@ -45,7 +45,6 @@ final class LocationService: NSObject {
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.manager.stopUpdatingLocation()
-        let location = locations.first 
-        self.currentLocation = location
+        self.currentLocation = locations.first
     }
 }

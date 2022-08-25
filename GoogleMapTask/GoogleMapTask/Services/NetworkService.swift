@@ -42,14 +42,16 @@ class NetworkService: NetworkServiceProtocol {
                 completion(result)
             }
         }
-        
+        // configure endPoint
         guard let url = endPoint.url else {
             completionOnMain(.failure(NetworkError.invalidURL))
             return }
         
+        // set http method
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.method
         
+        // make request
         let urlSession = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completionOnMain(.failure(error))
@@ -72,12 +74,14 @@ class NetworkService: NetworkServiceProtocol {
             }
             
             do {
+                // decode data to model
                 let places = try JSONDecoder().decode(T.self, from: data)
                 completionOnMain(.success(places))
             } catch {
                 completionOnMain(.failure(NetworkError.invalidData))
             }
         }
+        // start session
         urlSession.resume()
     }
 }

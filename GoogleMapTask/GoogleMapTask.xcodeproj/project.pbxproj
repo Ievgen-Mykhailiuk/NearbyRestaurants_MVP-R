@@ -15,10 +15,15 @@
 		FC3FDB6F28B3B69600897C7B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB6E28B3B69600897C7B /* String+Extension.swift */; };
 		FC3FDB7128B3BCD400897C7B /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB7028B3BCD400897C7B /* Double+Extension.swift */; };
 		FC3FDB7328B4DD5700897C7B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB7228B4DD5700897C7B /* UIView+Extension.swift */; };
+		FC3FDB8528B5057A00897C7B /* MapViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB8428B5057A00897C7B /* MapViewPresenter.swift */; };
+		FC3FDB8728B5058800897C7B /* ListViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB8628B5058800897C7B /* ListViewPresenter.swift */; };
+		FC3FDB8928B505A400897C7B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB8828B505A400897C7B /* Router.swift */; };
+		FC3FDB8B28B5062700897C7B /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3FDB8A28B5062700897C7B /* Builder.swift */; };
+		FC3FDB8D28B509B200897C7B /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC3FDB8C28B509B200897C7B /* ListViewController.xib */; };
+		FC3FDB8F28B509E500897C7B /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC3FDB8E28B509E500897C7B /* MapViewController.xib */; };
 		FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA528A3FD4A00A75430 /* AppDelegate.swift */; };
 		FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */; };
 		FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CA928A3FD4A00A75430 /* MapViewController.swift */; };
-		FC417CAD28A3FD4A00A75430 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC417CAB28A3FD4A00A75430 /* Main.storyboard */; };
 		FC417CAF28A3FD4D00A75430 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC417CAE28A3FD4D00A75430 /* Assets.xcassets */; };
 		FC417CB228A3FD4D00A75430 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */; };
 		FC417CBA28A4052300A75430 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC417CB928A4052300A75430 /* NetworkService.swift */; };
@@ -40,11 +45,16 @@
 		FC3FDB6E28B3B69600897C7B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		FC3FDB7028B3BCD400897C7B /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		FC3FDB7228B4DD5700897C7B /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		FC3FDB8428B5057A00897C7B /* MapViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewPresenter.swift; sourceTree = "<group>"; };
+		FC3FDB8628B5058800897C7B /* ListViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewPresenter.swift; sourceTree = "<group>"; };
+		FC3FDB8828B505A400897C7B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		FC3FDB8A28B5062700897C7B /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		FC3FDB8C28B509B200897C7B /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
+		FC3FDB8E28B509E500897C7B /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		FC417CA228A3FD4A00A75430 /* GoogleMapTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleMapTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC417CA528A3FD4A00A75430 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC417CA728A3FD4A00A75430 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FC417CA928A3FD4A00A75430 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		FC417CAC28A3FD4A00A75430 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FC417CAE28A3FD4D00A75430 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC417CB128A3FD4D00A75430 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC417CB328A3FD4D00A75430 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,6 +81,69 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC3FDB7C28B504AB00897C7B /* MapModule */ = {
+			isa = PBXGroup;
+			children = (
+				FC3FDB8028B504E700897C7B /* Model */,
+				FC3FDB7F28B504DF00897C7B /* View */,
+				FC3FDB7E28B504D100897C7B /* Presenter */,
+			);
+			path = MapModule;
+			sourceTree = "<group>";
+		};
+		FC3FDB7D28B504C100897C7B /* ListModule */ = {
+			isa = PBXGroup;
+			children = (
+				FC3FDB8328B504FC00897C7B /* View */,
+				FC3FDB8128B504EF00897C7B /* Presenter */,
+			);
+			path = ListModule;
+			sourceTree = "<group>";
+		};
+		FC3FDB7E28B504D100897C7B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				FC3FDB8428B5057A00897C7B /* MapViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		FC3FDB7F28B504DF00897C7B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FC417CA928A3FD4A00A75430 /* MapViewController.swift */,
+				FC3FDB8E28B509E500897C7B /* MapViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FC3FDB8028B504E700897C7B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FC5E52D328A6A7C600421075 /* PlacesResults.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FC3FDB8128B504EF00897C7B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				FC3FDB8628B5058800897C7B /* ListViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		FC3FDB8328B504FC00897C7B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FC3FDB3128AE593500897C7B /* ListViewController.swift */,
+				FC3FDB2D28AE56EC00897C7B /* PlaceDetailsCell.swift */,
+				FC3FDB2E28AE56EC00897C7B /* PlaceDetailsCell.xib */,
+				FC3FDB8C28B509B200897C7B /* ListViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		FC417C9928A3FD4A00A75430 = {
 			isa = PBXGroup;
 			children = (
@@ -90,45 +163,19 @@
 		FC417CA428A3FD4A00A75430 /* GoogleMapTask */ = {
 			isa = PBXGroup;
 			children = (
+				FC3FDB7C28B504AB00897C7B /* MapModule */,
+				FC3FDB7D28B504C100897C7B /* ListModule */,
 				FC9C225428AD0C0400AE43F4 /* Constants */,
 				FC9C225228AD0A0A00AE43F4 /* Application */,
 				FC9C225328AD0A1B00AE43F4 /* Extensions */,
 				FC5E52D228A6830400421075 /* Services */,
-				FC417CC228A406C000A75430 /* Model */,
-				FC417CC128A406B700A75430 /* View */,
-				FC417CC028A4069C00A75430 /* Controller */,
 				FC417CAE28A3FD4D00A75430 /* Assets.xcassets */,
 				FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */,
 				FC417CB328A3FD4D00A75430 /* Info.plist */,
+				FC3FDB8828B505A400897C7B /* Router.swift */,
+				FC3FDB8A28B5062700897C7B /* Builder.swift */,
 			);
 			path = GoogleMapTask;
-			sourceTree = "<group>";
-		};
-		FC417CC028A4069C00A75430 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				FC417CA928A3FD4A00A75430 /* MapViewController.swift */,
-				FC3FDB3128AE593500897C7B /* ListViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		FC417CC128A406B700A75430 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				FC417CAB28A3FD4A00A75430 /* Main.storyboard */,
-				FC3FDB2D28AE56EC00897C7B /* PlaceDetailsCell.swift */,
-				FC3FDB2E28AE56EC00897C7B /* PlaceDetailsCell.xib */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		FC417CC228A406C000A75430 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				FC5E52D328A6A7C600421075 /* PlacesResults.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		FC5E52D228A6830400421075 /* Services */ = {
@@ -241,8 +288,9 @@
 			files = (
 				FC3FDB3028AE56EC00897C7B /* PlaceDetailsCell.xib in Resources */,
 				FC417CB228A3FD4D00A75430 /* LaunchScreen.storyboard in Resources */,
+				FC3FDB8D28B509B200897C7B /* ListViewController.xib in Resources */,
+				FC3FDB8F28B509E500897C7B /* MapViewController.xib in Resources */,
 				FC417CAF28A3FD4D00A75430 /* Assets.xcassets in Resources */,
-				FC417CAD28A3FD4A00A75430 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,9 +307,12 @@
 				FC3FDB3728B013A600897C7B /* UIImageView+Extension.swift in Sources */,
 				FC417CAA28A3FD4A00A75430 /* MapViewController.swift in Sources */,
 				FC417CA628A3FD4A00A75430 /* AppDelegate.swift in Sources */,
+				FC3FDB8928B505A400897C7B /* Router.swift in Sources */,
+				FC3FDB8528B5057A00897C7B /* MapViewPresenter.swift in Sources */,
 				FC5E52D128A6425300421075 /* LocationService.swift in Sources */,
 				FC3FDB2F28AE56EC00897C7B /* PlaceDetailsCell.swift in Sources */,
 				FC5E52CF28A63CC800421075 /* GoogleMapService.swift in Sources */,
+				FC3FDB8728B5058800897C7B /* ListViewPresenter.swift in Sources */,
 				FC3FDB7128B3BCD400897C7B /* Double+Extension.swift in Sources */,
 				FC3FDB6F28B3B69600897C7B /* String+Extension.swift in Sources */,
 				FC5E52D828AB8D2D00421075 /* UIViewController+Extension.swift in Sources */,
@@ -269,20 +320,13 @@
 				FC5E52D628AA8B2600421075 /* EndPoint.swift in Sources */,
 				FC417CA828A3FD4A00A75430 /* SceneDelegate.swift in Sources */,
 				FC3FDB3228AE593500897C7B /* ListViewController.swift in Sources */,
+				FC3FDB8B28B5062700897C7B /* Builder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FC417CAB28A3FD4A00A75430 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC417CAC28A3FD4A00A75430 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FC417CB028A3FD4D00A75430 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

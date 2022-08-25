@@ -9,19 +9,17 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 
+protocol MapViewProtocol: AnyObject {
+    func didShowPlaces(model: [PlacesModel])
+    func didFailWithError(error: Error)
+    func didUpdateLocation(location: CLLocation?)
+}
+
 final class MapViewController: UIViewController {
     
     //MARK: - Properties
-    private let locationManager = LocationService()
-    private let networkManager = NetworkService()
     private var mapView: GMSMapView!
-    private var nearbyPlaces = [PlacesModel]()
-    private var currentLocation: CLLocation? {
-        didSet {
-            setMapCamera(location: currentLocation)
-            fetchPlaces(location: currentLocation)
-        }
-    }
+    var presenter: MapViewPresenterProtocol!
     lazy private var listButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 20, y: 80 , width: 100, height: 30)
@@ -39,22 +37,27 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
+        commencedUpdatingLocation()
     }
-    
+
     //MARK: - Actions
     @objc private func showListButtonTapped() {
-        showList()
+        presenter.didTapOnShowListButton()
     }
     
     //MARK: - Private Methods
+    private func commencedUpdatingLocation()  {
+        presenter.startUpdatingLocation()
+    }
+    
     private func initialSetup() {
         setupMap()
         addSubviews()
-        setupLocationManager()
+        setupMapViewConstraints()
     }
     
     private func setupMap() {
-        mapView = GMSMapView(frame: view.frame)
+        mapView = GMSMapView()
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
     }
@@ -64,11 +67,14 @@ final class MapViewController: UIViewController {
         mapView.addSubview(listButton)
     }
     
-    private func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+    private func setupMapViewConstraints() {
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        mapView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
-  
+    
     private func setMapCamera(location: CLLocation?) {
         guard let location = location else { return }
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
@@ -77,38 +83,8 @@ final class MapViewController: UIViewController {
         mapView.animate(to: camera)
     }
     
-    private func showList() {
-        let rootVC = ListViewController(places: self.nearbyPlaces)
-        self.navigationController?.pushViewController(rootVC, animated: true)
-    }
-    
-    private func fetchPlaces(location: CLLocation?) {
-        guard let location = location else { return }
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        
-        // make network request for places
-        networkManager.request(from: .getPlaces(longitude: longitude, latitude: latitude),
-                               httpMethod: .get) {
-            [weak self] (result: Result<PlacesResults, Error>) in
-            switch result {
-            case .success(let places):
-                DispatchQueue.main.async {
-                    
-                    // save results to property
-                    self?.nearbyPlaces = places.results
-                    
-                    // add markers to map
-                    self?.addMarkers()
-                }
-            case .failure(let error):
-                self?.showAlert(title: "Error", message: error.localizedDescription)
-            }
-        }
-    }
-    
-    private func addMarkers() {
-        self.nearbyPlaces.forEach { place in
+    private func addMarkers(places: [PlacesModel]) {
+        places.forEach { place in
             markPlaceOnMap(with: place)
         }
     }
@@ -124,13 +100,21 @@ final class MapViewController: UIViewController {
         marker.position = position
         marker.title = place.name
         marker.snippet = place.address
-        marker.map = self.mapView
+        marker.map = mapView
     }
 }
 
-//MARK: - LocationServiceDelegate
-extension MapViewController: LocationServiceDelegate {
+//MARK: -  MapViewProtocol
+extension MapViewController: MapViewProtocol {
+    func didShowPlaces(model: [PlacesModel]) {
+        self.addMarkers(places: model)
+    }
+    
+    func didFailWithError(error: Error) {
+        self.showAlert(title: "Error", message: error.localizedDescription)
+    }
+   
     func didUpdateLocation(location: CLLocation?) {
-        self.currentLocation = location
+        self.setMapCamera(location: location)
     }
 }

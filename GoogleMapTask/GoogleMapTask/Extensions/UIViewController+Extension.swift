@@ -31,3 +31,10 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    var isModal: Bool {
+        return presentingViewController != nil ||
+        navigationController?.presentingViewController != nil
+    }
+}

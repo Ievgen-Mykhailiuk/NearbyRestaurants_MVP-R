@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ListViewProtocol: AnyObject {
-    func didUpdatePlaces(model: [PlacesModel])
+    func update(with places: [PlacesModel])
 }
 
 final class ListViewController: UIViewController  {
@@ -17,17 +17,13 @@ final class ListViewController: UIViewController  {
     private var tableView: UITableView!
     private let cellIdentifier = String(describing: PlaceDetailsCell.self)
     var presenter: ListViewPresenterProtocol!
-    var places = [PlacesModel]() {
-        didSet{
-            tableView.dataSource = self
-        }
-    }
+    private var places = [PlacesModel]()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
-        didShowListOfPlaces()
+        presenter.viewDidLoad()
     }
 
     //MARK: - Private methods
@@ -40,6 +36,7 @@ final class ListViewController: UIViewController  {
 
     private func setupTableView() {
         tableView = UITableView()
+        tableView.dataSource = self
         tableView.register(UINib(nibName: cellIdentifier, bundle: nil),
                            forCellReuseIdentifier: cellIdentifier)
     }
@@ -50,10 +47,6 @@ final class ListViewController: UIViewController  {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-    }
-    
-    private func didShowListOfPlaces() {
-        presenter.showListOfPlaces()
     }
 }
 
@@ -67,15 +60,16 @@ extension ListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! PlaceDetailsCell
         let place = places[indexPath.row]
-        cell.configure(model: place)
+        cell.configure(place: place)
         return cell
     }
 }
 
 //MARK: - ListViewProtocol
 extension ListViewController: ListViewProtocol {
-    func didUpdatePlaces(model: [PlacesModel]) {
-        self.places = model
+    func update(with places: [PlacesModel]) {
+        self.places = places
+        tableView.reloadData()
     }
 }
 

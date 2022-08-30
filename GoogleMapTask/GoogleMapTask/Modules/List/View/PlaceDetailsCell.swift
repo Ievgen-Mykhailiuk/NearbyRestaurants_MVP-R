@@ -16,11 +16,11 @@ final class PlaceDetailsCell: UITableViewCell {
     @IBOutlet weak private var placeRankLabel: UILabel!
     
     //MARK: - Cell's content configuration
-    func configure(model: PlacesModel) {
+    func configure(place: PlacesModel) {
         placeIconImageView.image = nil
-        placeIconImageView.setImage(imageUrl: model.iconUrl)
-        placeNameLabel.text = model.name
-        placeAddressLabel.text = model.address
-        placeRankLabel.text = model.rating?.stringValue ?? .empty
+        placeIconImageView.setImage(imageUrl: place.iconUrl)
+        placeNameLabel.text = place.name
+        placeAddressLabel.text = place.address
+        placeRankLabel.text = place.rating?.stringValue ?? .empty
     }
 }

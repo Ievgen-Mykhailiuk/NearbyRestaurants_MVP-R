@@ -14,16 +14,7 @@ protocol NetworkServiceProtocol {
                              completion: @escaping (Result<T, Error>) -> Void)
 }
 
-class NetworkService: NetworkServiceProtocol {
-    
-    //MARK: - Network errors
-    enum NetworkError: String, Error {
-        case invalidURL = "invalidURL"
-        case invalidResponse = "Invalid response"
-        case invalidStatusCode = "Invalid status code"
-        case noData = "No data occur"
-        case invalidData = "Invalid Data"
-    }
+final class NetworkService: NetworkServiceProtocol {
     
     //MARK: - Http methods
     enum HttpMethod: String {

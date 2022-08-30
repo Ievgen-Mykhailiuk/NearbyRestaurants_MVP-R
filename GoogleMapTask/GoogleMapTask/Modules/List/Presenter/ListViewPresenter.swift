@@ -8,29 +8,25 @@
 import Foundation
 
 protocol ListViewPresenterProtocol: AnyObject   {
-    init(view: ListViewProtocol,
-         model: [PlacesModel],
-         router: RouterProtocol)
-    
-    func showListOfPlaces()
+    func viewDidLoad()
 }
 
 final class ListViewPresenter: ListViewPresenterProtocol {
     
     //MARK: - Properties
     private weak var view: ListViewProtocol?
-    var model: [PlacesModel]
-    private let router: RouterProtocol
+    private var places: [PlacesModel]
+    private let router: ListRouter
     
     //MARK: - Life Cycle
-    required init(view: ListViewProtocol, model: [PlacesModel], router: RouterProtocol ) {
+    init(view: ListViewProtocol, places: [PlacesModel], router: ListRouter ) {
         self.view = view
-        self.model = model
+        self.places = places
         self.router = router
     }
     
     //MARK: - Show list method
-    func showListOfPlaces() {
-        self.view?.didUpdatePlaces(model: model)
+    func viewDidLoad() {
+        self.view?.update(with: places)
     }
 }

@@ -10,7 +10,7 @@ import GoogleMaps
 import CoreLocation
 
 protocol MapViewProtocol: AnyObject {
-    func didShowPlaces(model: [PlacesModel])
+    func showPlaces(places: [PlacesModel])
     func didFailWithError(error: Error)
     func didUpdateLocation(location: CLLocation?)
 }
@@ -37,19 +37,15 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
-        commencedUpdatingLocation()
+        presenter.viewDidLoad()
     }
-
+    
     //MARK: - Actions
     @objc private func showListButtonTapped() {
-        presenter.didTapOnShowListButton()
+        presenter.showList()
     }
     
     //MARK: - Private Methods
-    private func commencedUpdatingLocation()  {
-        presenter.startUpdatingLocation()
-    }
-    
     private func initialSetup() {
         setupMap()
         addSubviews()
@@ -106,14 +102,21 @@ final class MapViewController: UIViewController {
 
 //MARK: -  MapViewProtocol
 extension MapViewController: MapViewProtocol {
-    func didShowPlaces(model: [PlacesModel]) {
-        self.addMarkers(places: model)
+    func showPlaces(places: [PlacesModel]) {
+        self.addMarkers(places: places)
     }
     
     func didFailWithError(error: Error) {
-        self.showAlert(title: "Error", message: error.localizedDescription)
+        var errorDescription: String = .empty
+        if let error = error as? LocationError {
+            errorDescription = error.description
+        }
+        if let error = error as? NetworkError {
+            errorDescription = error.description
+        }
+        self.showAlert(title: "Error", message: errorDescription)
     }
-   
+    
     func didUpdateLocation(location: CLLocation?) {
         self.setMapCamera(location: location)
     }

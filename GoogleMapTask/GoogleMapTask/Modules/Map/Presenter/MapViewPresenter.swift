@@ -9,34 +9,29 @@ import Foundation
 import CoreLocation
 
 protocol MapViewPresenterProtocol: AnyObject {
-    init(view: MapViewProtocol,
-         networkManager: NetworkServiceProtocol,
-         locationManager: LocationService,
-         router: RouterProtocol)
-
-    func didTapOnShowListButton()
-    func startUpdatingLocation()
+    func showList()
+    func viewDidLoad()
 }
 
 final class MapViewPresenter {
-   
+    
     //MARK: - Properties
     private weak var view: MapViewProtocol?
     private let locationManager: LocationService
     private let networkManager: NetworkServiceProtocol
-    private let router: RouterProtocol
-    var model = [PlacesModel]()
-    var currentLocation: CLLocation?  {
+    private let router: MapRouter
+    private var places = [PlacesModel]()
+    private var currentLocation: CLLocation?  {
         didSet {
             fetchPlaces(location: currentLocation)
         }
     }
     
     //MARK: - Life Cycle
-    required init(view: MapViewProtocol,
-                  networkManager: NetworkServiceProtocol,
-                  locationManager: LocationService,
-                  router: RouterProtocol) {
+    init(view: MapViewProtocol,
+         networkManager: NetworkServiceProtocol,
+         locationManager: LocationService,
+         router: MapRouter) {
         self.view = view
         self.networkManager = networkManager
         self.router = router
@@ -48,7 +43,7 @@ final class MapViewPresenter {
         guard let location = location else { return }
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-
+        
         // make network request for places
         networkManager.request(from: .getPlaces(longitude: longitude, latitude: latitude),
                                httpMethod: .get) {
@@ -56,25 +51,28 @@ final class MapViewPresenter {
             switch result {
             case .success(let places):
                 DispatchQueue.main.async {
-                    self?.model = places.results
-                    self?.view?.didShowPlaces(model: places.results)
+                    self?.places = places.results
+                    self?.view?.showPlaces(places: places.results)
                 }
             case .failure(let error):
                 self?.view?.didFailWithError(error: error)
             }
         }
     }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+    }
 }
 
 //MARK: - MapViewPresenterProtocol
 extension MapViewPresenter: MapViewPresenterProtocol {
-    func startUpdatingLocation() {
-        locationManager.delegate = self
-        locationManager.startUpdatingLocation()
+    func viewDidLoad() {
+        setupLocationManager()
     }
     
-    func didTapOnShowListButton() {
-        router.showListViewController(model: model)
+    func showList() {
+        router.showList(places: places)
     }
 }
 

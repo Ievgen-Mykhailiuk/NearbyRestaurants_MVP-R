@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 protocol LocationServiceDelegate: AnyObject {
     func didUpdateLocation(location: CLLocation?)
@@ -25,23 +26,41 @@ final class LocationService: NSObject {
     }
     weak var delegate: LocationServiceDelegate?
     
-    //MARK: - Errors
-    enum LocationError: String, Error {
-        case noLocation = "Location is unavailable"
-        case noPermission = "Don't have permission to get location"
-    }
-    
     //MARK: - Override init method
     override init() {
         super.init()
         manager.delegate = self
-        manager.requestWhenInUseAuthorization()
     }
     
-    //MARK: - Provide location method
-    func startUpdatingLocation() {
-        hasPermission ? manager.startUpdatingLocation() :
-                        self.delegate?.didFailWithError(error: LocationError.noPermission)
+    //MARK: - Private methods
+    private func ckeckAuthorizationStatus(completion: @escaping (Bool?) -> Void) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            let allowed = true
+            completion(allowed)
+        case .notDetermined:
+            let notDetermined: Bool? = nil
+            completion(notDetermined)
+        default:
+            let notAllowed = false
+            completion(notAllowed)
+        }
+    }
+    
+    private func createGoToSettingAlertAction() {
+        let action =  UIAlertAction(title: "Go to Settings",
+                                    style: .default) { action  in
+            if let url = URL(string:UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
+        }
+        UIApplication
+            .shared
+            .windows
+            .first?
+            .rootViewController?.showAlert(title: "Error",
+                                           message: LocationError.noPermission.description,
+                                           actions: [action])
     }
 }
 
@@ -53,15 +72,16 @@ extension LocationService: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.delegate?.didFailWithError(error: error)
+        self.delegate?.didFailWithError(error: LocationError.noLocation)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .restricted, .denied:
-            hasPermission = false
-        default:
-            hasPermission = true
+        ckeckAuthorizationStatus { status in
+            guard let status = status else {
+                manager.requestWhenInUseAuthorization()
+                return
+            }
+            status ? manager.startUpdatingLocation() : self.createGoToSettingAlertAction()
         }
     }
 }

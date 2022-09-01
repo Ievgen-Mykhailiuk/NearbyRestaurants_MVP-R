@@ -78,5 +78,5 @@ class BaseRouter: BaseModuleRouter {
                      completion: EmptyBlock?) {
         navigationController?.popViewController(animated: animated,
                                                 completion: completion)
-}
+    }
 }

@@ -12,27 +12,24 @@ extension UINavigationController {
                             animated: Bool,
                             completion: EmptyBlock?) {
         pushViewController(viewController, animated: animated)
-        guard animated, let coordinator = transitionCoordinator else {
-            DispatchQueue.main.async { completion?() }
-            return
-        }
-        coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+        receiveTransitionCompletion(animated: animated, completion: completion)
     }
     
     func popViewController(animated: Bool,
                            completion: EmptyBlock?) {
         popViewController(animated: animated)
-        guard animated, let coordinator = transitionCoordinator else {
-            DispatchQueue.main.async { completion?() }
-            return
-        }
-        coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+        receiveTransitionCompletion(animated: animated, completion: completion)
     }
     
     func popToViewController(_ viewController: UIViewController,
                              animated: Bool,
                              completion: EmptyBlock?) {
         popToViewController(viewController, animated: animated)
+        receiveTransitionCompletion(animated: animated, completion: completion)
+    }
+    
+    private func receiveTransitionCompletion(animated: Bool,
+                                             completion: EmptyBlock?) {
         guard animated, let coordinator = transitionCoordinator else {
             DispatchQueue.main.async { completion?() }
             return

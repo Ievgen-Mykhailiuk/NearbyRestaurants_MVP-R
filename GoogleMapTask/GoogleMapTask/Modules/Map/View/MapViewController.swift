@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MapViewController.swift
 //  GoogleMapsTask
 //
 //  Created by Евгений  on 09/08/2022.
@@ -10,8 +10,8 @@ import GoogleMaps
 import CoreLocation
 
 protocol MapViewProtocol: AnyObject {
-    func showPlaces(places: [PlacesModel])
-    func didFailWithError(error: Error)
+    func showPlaces(_ places: [PlacesModel])
+    func didFailWithError(error: String)
     func didUpdateLocation(location: CLLocation?)
 }
 
@@ -102,19 +102,12 @@ final class MapViewController: UIViewController {
 
 //MARK: -  MapViewProtocol
 extension MapViewController: MapViewProtocol {
-    func showPlaces(places: [PlacesModel]) {
+    func showPlaces(_ places: [PlacesModel]) {
         self.addMarkers(places: places)
     }
-    
-    func didFailWithError(error: Error) {
-        var errorDescription: String = .empty
-        if let error = error as? LocationError {
-            errorDescription = error.description
-        }
-        if let error = error as? NetworkError {
-            errorDescription = error.description
-        }
-        self.showAlert(title: "Error", message: errorDescription)
+
+    func didFailWithError(error: String) {
+        self.showAlert(title: "Error", message: error)
     }
     
     func didUpdateLocation(location: CLLocation?) {

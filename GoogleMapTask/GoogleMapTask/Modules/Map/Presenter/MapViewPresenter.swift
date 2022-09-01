@@ -1,5 +1,5 @@
 //
-//  MapPresenter.swift
+//  MapViewPresenter.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 23/08/2022.
@@ -19,7 +19,7 @@ final class MapViewPresenter {
     private weak var view: MapViewProtocol?
     private let locationManager: LocationService
     private let networkManager: NetworkServiceProtocol
-    private let router: MapRouter
+    private let router: DefaultMapRouter
     private var places = [PlacesModel]()
     private var currentLocation: CLLocation?  {
         didSet {
@@ -31,7 +31,7 @@ final class MapViewPresenter {
     init(view: MapViewProtocol,
          networkManager: NetworkServiceProtocol,
          locationManager: LocationService,
-         router: MapRouter) {
+         router: DefaultMapRouter) {
         self.view = view
         self.networkManager = networkManager
         self.router = router
@@ -47,15 +47,15 @@ final class MapViewPresenter {
         // make network request for places
         networkManager.request(from: .getPlaces(longitude: longitude, latitude: latitude),
                                httpMethod: .get) {
-            [weak self] (result: Result<PlacesResults, Error>) in
+            [weak self] (result: Result<PlacesResults, NetworkError>) in
             switch result {
             case .success(let places):
                 DispatchQueue.main.async {
                     self?.places = places.results
-                    self?.view?.showPlaces(places: places.results)
+                    self?.view?.showPlaces(places.results)
                 }
             case .failure(let error):
-                self?.view?.didFailWithError(error: error)
+                self?.view?.didFailWithError(error: error.rawValue)
             }
         }
     }
@@ -83,7 +83,7 @@ extension MapViewPresenter: LocationServiceDelegate {
         self.view?.didUpdateLocation(location: currentLocation)
     }
     
-    func didFailWithError(error: Error) {
+    func didFailWithError(error: String) {
         self.view?.didFailWithError(error: error)
     }
 }

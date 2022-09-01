@@ -1,5 +1,5 @@
 //
-//  DetailsViewController.swift
+//  ListViewController.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 18/08/2022.

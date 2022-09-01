@@ -7,23 +7,27 @@
 
 import UIKit
 
+typealias EmptyBlock = () -> Void
+
 protocol BaseModuleRouter: AnyObject {
-    func showViewController(viewController: UIViewController,
-                            isModal: Bool,
-                            animated: Bool)
+    func show(viewController: UIViewController,
+              isModal: Bool,
+              animated: Bool,
+              completion: EmptyBlock?)
     
-    func closeViewController(viewController: UIViewController,
-                             animated: Bool)
+    func close(animated: Bool,
+               completion: EmptyBlock?)
     
-    func goBackToViewController(viewController: UIViewController,
-                                animated: Bool)
+    func goBack(to viewController: UIViewController,
+                animated: Bool,
+                completion: EmptyBlock?)
 }
 
 class BaseRouter: BaseModuleRouter {
     
     //MARK: - Properties
-    let viewController: UIViewController
-    var navigationController: UINavigationController?  {
+    private let viewController: UIViewController
+    private var navigationController: UINavigationController?  {
         return viewController.navigationController
     }
     
@@ -32,31 +36,44 @@ class BaseRouter: BaseModuleRouter {
         self.viewController = viewController
     }
     
-    //MARK: - Methods
-    func showViewController(viewController: UIViewController,
-                            isModal: Bool,
-                            animated: Bool) {
-        let presentingViewController = navigationController ?? viewController
+    //MARK: - Base protocol methods
+    func show(viewController: UIViewController,
+              isModal: Bool,
+              animated: Bool,
+              completion: EmptyBlock?) {
+        let presentingViewController = navigationController ?? self.viewController
         if isModal {
-            presentingViewController.present(viewController, animated: animated)
+            presentingViewController.present(viewController,
+                                             animated: animated,
+                                             completion: completion)
         } else {
-            navigationController?.pushViewController(viewController, animated: animated)
+            navigationController?.pushViewController(viewController,
+                                                     animated: animated,
+                                                     completion: completion)
         }
     }
     
-    func closeViewController(viewController: UIViewController,
-                             animated: Bool) {
-        let presentingViewController = navigationController ?? viewController
+    func close(animated: Bool,
+               completion: EmptyBlock?) {
         if viewController.isModal {
-            presentingViewController.dismiss(animated: animated)
+            if let navigationController = navigationController {
+                navigationController.dismiss(animated: animated,
+                                             completion: completion)
+            } else {
+            viewController.dismiss(animated: animated,
+                                   completion: completion)
+            }
         } else {
-            navigationController?.popViewController(animated: animated)
+            navigationController?.popViewController(animated: animated,
+                                                    completion: completion)
         }
     }
     
-    func goBackToViewController(viewController: UIViewController,
-                                animated: Bool) {
+    func goBack(to viewController: UIViewController,
+                animated: Bool,
+                completion: EmptyBlock?) {
         navigationController?.popToViewController(viewController,
-                                                  animated: animated)
+                                                  animated: animated,
+                                                  completion: completion)
     }
 }

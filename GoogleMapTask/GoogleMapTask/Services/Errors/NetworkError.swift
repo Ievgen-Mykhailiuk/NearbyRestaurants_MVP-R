@@ -7,27 +7,11 @@
 
 import Foundation
 
-enum NetworkError: Error {
-    case invalidURL
-    case invalidResponse
-    case invalidStatusCode
-    case noData
-    case invalidData
-}
-
-extension NetworkError {
-    var description: String {
-        switch self {
-        case .invalidURL:
-            return "invalid URL"
-        case .invalidResponse:
-            return "Invalid response"
-        case .invalidStatusCode:
-            return "Invalid status code"
-        case .noData:
-            return "No data occure"
-        case .invalidData:
-            return "Invalid Data"
-        }
-    }
+enum NetworkError: String, Error {
+    case invalidURL = "invalid URL"
+    case invalidResponse = "Invalid response"
+    case invalidStatusCode = "Invalid status code"
+    case noData = "No data occure"
+    case invalidData = "Invalid Data"
+    
 }

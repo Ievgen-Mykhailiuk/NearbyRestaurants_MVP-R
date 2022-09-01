@@ -7,18 +7,7 @@
 
 import Foundation
 
-enum LocationError: Error {
-    case noLocation
-    case noPermission
-}
-
-extension LocationError {
-    var description: String {
-        switch self {
-        case .noLocation:
-            return "Location is unavailable"
-        case .noPermission:
-            return "App don't have permission to get location"
-        }
-    }
+enum LocationError: String, Error {
+    case noLocation = "Location is unavailable"
+    case noPermission = "App don't have permission to get location"
 }

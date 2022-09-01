@@ -1,24 +1,22 @@
 //
-//  LocationManager.swift
+//  LocationService.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 12/08/2022.
 //
 
-import Foundation
 import CoreLocation
 import UIKit
 
 protocol LocationServiceDelegate: AnyObject {
     func didUpdateLocation(location: CLLocation?)
-    func didFailWithError(error: Error)
+    func didFailWithError(error: String)
 }
 
 final class LocationService: NSObject {
     
     //MARK: - Properties
     private let manager = CLLocationManager()
-    private var hasPermission = true
     private var currentLocation: CLLocation? {
         didSet {
             self.delegate?.didUpdateLocation(location: currentLocation)
@@ -33,34 +31,27 @@ final class LocationService: NSObject {
     }
     
     //MARK: - Private methods
-    private func ckeckAuthorizationStatus(completion: @escaping (Bool?) -> Void) {
+    private func ckeckAuthorizationStatus(completion: @escaping (Bool) -> Void) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            let allowed = true
-            completion(allowed)
+            completion(true)
         case .notDetermined:
-            let notDetermined: Bool? = nil
-            completion(notDetermined)
+            manager.requestWhenInUseAuthorization()
         default:
-            let notAllowed = false
-            completion(notAllowed)
+             completion(false)
         }
     }
     
-    private func createGoToSettingAlertAction() {
-        let action =  UIAlertAction(title: "Go to Settings",
-                                    style: .default) { action  in
-            if let url = URL(string:UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
+    private func showDeniedStatusAlert() {
+        let notNowAction = UIAlertAction(title: "Not now",
+                                         style: .default)
+        let goToSettingsAction =  UIAlertAction(title: "Go to Settings",
+                                                style: .default) { action  in
+            UIApplication.openSettings()
         }
-        UIApplication
-            .shared
-            .windows
-            .first?
-            .rootViewController?.showAlert(title: "Error",
-                                           message: LocationError.noPermission.description,
-                                           actions: [action])
+        UIApplication.keyWindowViewController?.showAlert(title: "Error",
+                                                         message: LocationError.noPermission.rawValue,
+                                                         actions: [notNowAction, goToSettingsAction])
     }
 }
 
@@ -72,16 +63,12 @@ extension LocationService: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.delegate?.didFailWithError(error: LocationError.noLocation)
+        self.delegate?.didFailWithError(error: error.localizedDescription)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         ckeckAuthorizationStatus { status in
-            guard let status = status else {
-                manager.requestWhenInUseAuthorization()
-                return
-            }
-            status ? manager.startUpdatingLocation() : self.createGoToSettingAlertAction()
+            status ? manager.startUpdatingLocation() : self.showDeniedStatusAlert()
         }
     }
 }

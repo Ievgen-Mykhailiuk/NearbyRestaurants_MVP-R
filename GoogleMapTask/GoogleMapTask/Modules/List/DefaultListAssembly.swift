@@ -1,5 +1,5 @@
 //
-//  ListAssembly.swift
+//  DefaultListAssembly.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 26/08/2022.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol ListAssembling {
+protocol ListAssembly {
     func createListModule(places: [PlacesModel]) -> UIViewController
 }
 
-final class ListAssembly: ListAssembling {
+final class DefaultListAssembly: ListAssembly {
     func createListModule(places: [PlacesModel]) -> UIViewController {
         let view = ListViewController()
-        let router = ListRouter(viewController: view)
+        let router = DefaultListRouter(viewController: view)
         let presenter = ListViewPresenter(view: view,
                                           places: places,
                                           router: router)

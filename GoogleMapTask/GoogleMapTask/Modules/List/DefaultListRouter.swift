@@ -8,11 +8,11 @@
 import Foundation
 
 protocol ListRouter {
-    func closeList()
+    func close()
 }
 
 final class DefaultListRouter: BaseRouter, ListRouter {
-    func closeList() {
+    func close() {
         close(animated: true, completion: nil)
     }
 }

@@ -7,8 +7,6 @@
 
 import UIKit
 
-typealias EmptyBlock = () -> Void
-
 protocol BaseModuleRouter: AnyObject {
     func show(viewController: UIViewController,
               isModal: Bool,
@@ -56,16 +54,9 @@ class BaseRouter: BaseModuleRouter {
     func close(animated: Bool,
                completion: EmptyBlock?) {
         if viewController.isModal {
-            if let navigationController = navigationController {
-                navigationController.dismiss(animated: animated,
-                                             completion: completion)
-            } else {
-            viewController.dismiss(animated: animated,
-                                   completion: completion)
-            }
+            dismiss(animated: animated, completion: completion)
         } else {
-            navigationController?.popViewController(animated: animated,
-                                                    completion: completion)
+            pop(animated: animated, completion: completion)
         }
     }
     
@@ -76,4 +67,16 @@ class BaseRouter: BaseModuleRouter {
                                                   animated: animated,
                                                   completion: completion)
     }
+    
+    private func dismiss(animated: Bool,
+                         completion: EmptyBlock?) {
+        viewController.dismiss(animated: animated,
+                               completion: completion)
+    }
+    
+    private func pop(animated: Bool,
+                     completion: EmptyBlock?) {
+        navigationController?.popViewController(animated: animated,
+                                                completion: completion)
+}
 }

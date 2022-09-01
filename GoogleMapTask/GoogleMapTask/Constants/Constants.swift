@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias EmptyBlock = () -> Void
+
 struct Constants {
     static let apiKey = "AIzaSyBYu4A-M-dIFgIaMcm61RosaP1SB4Ggxww"
 }

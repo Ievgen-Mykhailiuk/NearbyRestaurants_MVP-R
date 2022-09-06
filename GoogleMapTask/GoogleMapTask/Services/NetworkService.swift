@@ -1,5 +1,5 @@
 //
-//  NetworkManager.swift
+//  NetworkService.swift
 //  GoogleMapsTask
 //
 //  Created by Евгений  on 10/08/2022.
@@ -11,19 +11,10 @@ import Foundation
 protocol NetworkServiceProtocol {
     func request<T: Codable>(from endPoint: EndPoint,
                              httpMethod: NetworkService.HttpMethod,
-                             completion: @escaping (Result<T, Error>) -> Void)
+                             completion: @escaping (Result<T, NetworkError>) -> Void)
 }
 
-class NetworkService: NetworkServiceProtocol {
-    
-    //MARK: - Network errors
-    enum NetworkError: String, Error {
-        case invalidURL = "invalidURL"
-        case invalidResponse = "Invalid response"
-        case invalidStatusCode = "Invalid status code"
-        case noData = "No data occur"
-        case invalidData = "Invalid Data"
-    }
+final class NetworkService: NetworkServiceProtocol {
     
     //MARK: - Http methods
     enum HttpMethod: String {
@@ -35,49 +26,53 @@ class NetworkService: NetworkServiceProtocol {
     //MARK: - Network request method
     func request<T: Codable>(from endPoint: EndPoint,
                              httpMethod: HttpMethod = .get,
-                             completion: @escaping (Result<T, Error>) -> Void) {
+                             completion: @escaping (Result<T, NetworkError>) -> Void) {
         
-        let completionOnMain: (Result<T, Error>) -> Void = { result in
+        let completionOnMain: (Result<T, NetworkError>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
         }
-        
+        // configure endPoint
         guard let url = endPoint.url else {
-            completionOnMain(.failure(NetworkError.invalidURL))
+            completionOnMain(.failure(.invalidURL))
             return }
         
+        // set http method
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.method
         
+        // make request
         let urlSession = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
+            if let error = error as? NetworkError {
                 completionOnMain(.failure(error))
                 return
             }
             
             guard let urlResponse = response as? HTTPURLResponse else {
-                completionOnMain(.failure(NetworkError.invalidResponse))
+                completionOnMain(.failure(.invalidResponse))
                 return
             }
             
             if !(200..<300).contains(urlResponse.statusCode) {
-                completionOnMain(.failure(NetworkError.invalidStatusCode))
+                completionOnMain(.failure(.invalidStatusCode))
                 return
             }
             
             guard let data = data else {
-                completionOnMain(.failure(NetworkError.noData))
+                completionOnMain(.failure(.noData))
                 return
             }
             
             do {
+                // decode data to model
                 let places = try JSONDecoder().decode(T.self, from: data)
                 completionOnMain(.success(places))
             } catch {
-                completionOnMain(.failure(NetworkError.invalidData))
+                completionOnMain(.failure(.invalidData))
             }
         }
+        // start session
         urlSession.resume()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DetailsViewController.swift
+//  ListViewController.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 18/08/2022.
@@ -7,40 +7,38 @@
 
 import UIKit
 
+protocol ListViewProtocol: AnyObject {
+    func update(with places: [PlacesModel])
+}
+
 final class ListViewController: UIViewController  {
     
     //MARK: - Properties
-    private let tableView = UITableView()
-    private let places: [PlacesModel]
+    private var tableView: UITableView!
     private let cellIdentifier = String(describing: PlaceDetailsCell.self)
+    var presenter: ListViewPresenterProtocol!
+    private var places = [PlacesModel]()
     
     //MARK: - Life Cycle
-    init(places: [PlacesModel]) {
-        self.places = places
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
+        presenter.viewDidLoad()
     }
 
     //MARK: - Private methods
     private func initialSetup() {
         navigationItem.title = .navigationTitle
-        view.addSubview(tableView)
         setupTableView()
+        view.addSubview(tableView)
+        setupTableViewConstraints()
     }
 
     private func setupTableView() {
+        tableView = UITableView()
         tableView.dataSource = self
         tableView.register(UINib(nibName: cellIdentifier, bundle: nil),
                            forCellReuseIdentifier: cellIdentifier)
-        setupTableViewConstraints()
     }
     
     private func setupTableViewConstraints() {
@@ -62,12 +60,20 @@ extension ListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier,
                                                  for: indexPath) as! PlaceDetailsCell
         let place = places[indexPath.row]
-        cell.configure(model: place)
+        cell.configure(place: place)
         return cell
     }
 }
 
-//MARK: - Private extension
+//MARK: - ListViewProtocol
+extension ListViewController: ListViewProtocol {
+    func update(with places: [PlacesModel]) {
+        self.places = places
+        tableView.reloadData()
+    }
+}
+
+//MARK: - Private extension String
 private extension String {
     static let navigationTitle = "List"
 }

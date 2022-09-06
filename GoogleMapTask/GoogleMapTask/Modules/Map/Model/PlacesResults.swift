@@ -1,5 +1,5 @@
 //
-//  PlacesData.swift
+//  PlacesResults.swift
 //  GoogleMapTask
 //
 //  Created by Евгений  on 12/08/2022.
